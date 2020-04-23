@@ -41,12 +41,12 @@
         </plugins>
     </build>
     <dependencies>
-        <dependency>
+<!--        <dependency>
             <groupId>co.uniminuto</groupId>
             <artifactId>ControlDeVentas-ejb</artifactId>
             <version>1.0-SNAPSHOT</version>
             <type>ejb</type>
-        </dependency>
+        </dependency>-->
         <dependency>
             <groupId>co.uniminuto</groupId>
             <artifactId>ControlDeVentas-web</artifactId>

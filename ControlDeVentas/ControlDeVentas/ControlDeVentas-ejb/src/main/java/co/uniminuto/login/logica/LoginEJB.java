@@ -15,7 +15,7 @@ import javax.persistence.PersistenceContext;
 public class LoginEJB extends AbstractFacade{
 
     
-    @PersistenceContext(unitName = "Pedidos_jdni")
+    @PersistenceContext(unitName = "EntidadesPU")
     private EntityManager em;
     
     @Override

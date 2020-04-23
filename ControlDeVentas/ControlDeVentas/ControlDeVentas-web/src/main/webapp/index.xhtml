@@ -5,16 +5,61 @@
       xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns:p="http://primefaces.org/ui">
     <h:head>
-        <title>Home</title>
+        <title>Login</title>
+        
+        <style type="text/css">
+            .middle-content{
+               border: 1px #000000 dotted; 
+            }
+            
+            .imgCenter{
+               margin-left:auto;
+               margin-right:auto;
+               display: block;
+            }
+        </style>
     </h:head>
     <h:body>
         <h:form>
             <br />
-            <ui:remove>
+        
+      
+            <div class="content">
+                <div class="middle-content">                
+                    <div>
+                        <img class="imgCenter" src="resources/images/user.png" alt="user" height="300" width="300"/>                    
+                   </div>  
+                    <h:panelGrid columns="2" cellpadding="5" style=" text-align:center; margin: auto">
 
+                        <p:outputLabel value="User" class="txt1 p-b-11"/>
+                        <p:inputText  value="" rendered="true" />
+
+
+                        <p:outputLabel value="Password"/>
+                        <p:password  required="true" />
+
+                        <h:outputText  value=""/>
+                        <p:commandButton  value="Ingresar" />
+                    </h:panelGrid>
+                            
+                </div>
+            </div>
+        
+            
+            
+            
            
-
-            </ui:remove>
+   
+      
+        <div>
+            <p:dataTable var="item" >
+                
+            </p:dataTable>
+          
+            
+        </div>
+   
+           
 
 
         </h:form>

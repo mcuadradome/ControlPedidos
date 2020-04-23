@@ -1,10 +1,13 @@
-
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package co.uniminuto.entidades;
 
 import java.io.Serializable;
 import java.util.List;
 import javax.persistence.Basic;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -12,6 +15,8 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -19,12 +24,14 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "CLIENTE")
+@XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Cliente.findAll", query = "SELECT c FROM Cliente c"),
-    @NamedQuery(name = "Cliente.findByIdCliente", query = "SELECT c FROM Cliente c WHERE c.idCliente = :idCliente"),
-    @NamedQuery(name = "Cliente.findByNombre", query = "SELECT c FROM Cliente c WHERE c.nombre = :nombre"),
-    @NamedQuery(name = "Cliente.findByApellido", query = "SELECT c FROM Cliente c WHERE c.apellido = :apellido"),
-    @NamedQuery(name = "Cliente.findByDireccion", query = "SELECT c FROM Cliente c WHERE c.direccion = :direccion")})
+    @NamedQuery(name = "Cliente.findAll", query = "SELECT c FROM Cliente c")
+    , @NamedQuery(name = "Cliente.findByIdCliente", query = "SELECT c FROM Cliente c WHERE c.idCliente = :idCliente")
+    , @NamedQuery(name = "Cliente.findByIdentificacion", query = "SELECT c FROM Cliente c WHERE c.identificacion = :identificacion")
+    , @NamedQuery(name = "Cliente.findByNombreCliente", query = "SELECT c FROM Cliente c WHERE c.nombreCliente = :nombreCliente")
+    , @NamedQuery(name = "Cliente.findByTelefono", query = "SELECT c FROM Cliente c WHERE c.telefono = :telefono")
+    , @NamedQuery(name = "Cliente.findByDireccion", query = "SELECT c FROM Cliente c WHERE c.direccion = :direccion")})
 public class Cliente implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -32,28 +39,22 @@ public class Cliente implements Serializable {
     @Basic(optional = false)
     @Column(name = "id_cliente")
     private Integer idCliente;
-    @Basic(optional = false)
-    @Column(name = "nombre")
-    private String nombre;
-    @Basic(optional = false)
-    @Column(name = "apellido")
-    private String apellido;
+    @Column(name = "identificacion")
+    private String identificacion;
+    @Column(name = "nombre_cliente")
+    private String nombreCliente;
+    @Column(name = "telefono")
+    private String telefono;
     @Column(name = "direccion")
     private String direccion;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idClienteFk")
-    private List<Orden> ordenList;
+    @OneToMany(mappedBy = "clienteFk")
+    private List<Venta> ventaList;
 
     public Cliente() {
     }
 
     public Cliente(Integer idCliente) {
         this.idCliente = idCliente;
-    }
-
-    public Cliente(Integer idCliente, String nombre, String apellido) {
-        this.idCliente = idCliente;
-        this.nombre = nombre;
-        this.apellido = apellido;
     }
 
     public Integer getIdCliente() {
@@ -64,20 +65,28 @@ public class Cliente implements Serializable {
         this.idCliente = idCliente;
     }
 
-    public String getNombre() {
-        return nombre;
+    public String getIdentificacion() {
+        return identificacion;
     }
 
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
+    public void setIdentificacion(String identificacion) {
+        this.identificacion = identificacion;
     }
 
-    public String getApellido() {
-        return apellido;
+    public String getNombreCliente() {
+        return nombreCliente;
     }
 
-    public void setApellido(String apellido) {
-        this.apellido = apellido;
+    public void setNombreCliente(String nombreCliente) {
+        this.nombreCliente = nombreCliente;
+    }
+
+    public String getTelefono() {
+        return telefono;
+    }
+
+    public void setTelefono(String telefono) {
+        this.telefono = telefono;
     }
 
     public String getDireccion() {
@@ -88,12 +97,13 @@ public class Cliente implements Serializable {
         this.direccion = direccion;
     }
 
-    public List<Orden> getOrdenList() {
-        return ordenList;
+    @XmlTransient
+    public List<Venta> getVentaList() {
+        return ventaList;
     }
 
-    public void setOrdenList(List<Orden> ordenList) {
-        this.ordenList = ordenList;
+    public void setVentaList(List<Venta> ventaList) {
+        this.ventaList = ventaList;
     }
 
     @Override

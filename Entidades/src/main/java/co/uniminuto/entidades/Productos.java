@@ -16,6 +16,8 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -23,102 +25,81 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "PRODUCTOS")
+@XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Productos.findAll", query = "SELECT p FROM Productos p"),
-    @NamedQuery(name = "Productos.findByIdProducto", query = "SELECT p FROM Productos p WHERE p.idProducto = :idProducto"),
-    @NamedQuery(name = "Productos.findByDescripcion", query = "SELECT p FROM Productos p WHERE p.descripcion = :descripcion"),
-    @NamedQuery(name = "Productos.findByPrecioBase", query = "SELECT p FROM Productos p WHERE p.precioBase = :precioBase"),
-    @NamedQuery(name = "Productos.findByEmbalaje", query = "SELECT p FROM Productos p WHERE p.embalaje = :embalaje"),
-    @NamedQuery(name = "Productos.findByIva", query = "SELECT p FROM Productos p WHERE p.iva = :iva")})
+    @NamedQuery(name = "Productos.findAll", query = "SELECT p FROM Productos p")
+    , @NamedQuery(name = "Productos.findById", query = "SELECT p FROM Productos p WHERE p.id = :id")
+    , @NamedQuery(name = "Productos.findByNombre", query = "SELECT p FROM Productos p WHERE p.nombre = :nombre")
+    , @NamedQuery(name = "Productos.findByIva", query = "SELECT p FROM Productos p WHERE p.iva = :iva")})
 public class Productos implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
-    @Column(name = "id_producto")
-    private String idProducto;
-    @Basic(optional = false)
-    @Column(name = "descripcion")
-    private String descripcion;
-    @Basic(optional = false)
-    @Column(name = "precio_base")
-    private int precioBase;
-    @Basic(optional = false)
-    @Column(name = "embalaje")
-    private int embalaje;
-    @Basic(optional = false)
+    @Column(name = "id")
+    private String id;
+    @Column(name = "nombre")
+    private String nombre;
     @Column(name = "iva")
-    private int iva;
+    private Integer iva;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idProductoFk")
-    private List<Orden> ordenList;
+    private List<OrdenVenta> ordenVentaList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idProductoFk")
+    private List<Inventario> inventarioList;
 
     public Productos() {
     }
 
-    public Productos(String idProducto) {
-        this.idProducto = idProducto;
+    public Productos(String id) {
+        this.id = id;
     }
 
-    public Productos(String idProducto, String descripcion, int precioBase, int embalaje, int iva) {
-        this.idProducto = idProducto;
-        this.descripcion = descripcion;
-        this.precioBase = precioBase;
-        this.embalaje = embalaje;
-        this.iva = iva;
+    public String getId() {
+        return id;
     }
 
-    public String getIdProducto() {
-        return idProducto;
+    public void setId(String id) {
+        this.id = id;
     }
 
-    public void setIdProducto(String idProducto) {
-        this.idProducto = idProducto;
+    public String getNombre() {
+        return nombre;
     }
 
-    public String getDescripcion() {
-        return descripcion;
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
     }
 
-    public void setDescripcion(String descripcion) {
-        this.descripcion = descripcion;
-    }
-
-    public int getPrecioBase() {
-        return precioBase;
-    }
-
-    public void setPrecioBase(int precioBase) {
-        this.precioBase = precioBase;
-    }
-
-    public int getEmbalaje() {
-        return embalaje;
-    }
-
-    public void setEmbalaje(int embalaje) {
-        this.embalaje = embalaje;
-    }
-
-    public int getIva() {
+    public Integer getIva() {
         return iva;
     }
 
-    public void setIva(int iva) {
+    public void setIva(Integer iva) {
         this.iva = iva;
     }
 
-    public List<Orden> getOrdenList() {
-        return ordenList;
+    @XmlTransient
+    public List<OrdenVenta> getOrdenVentaList() {
+        return ordenVentaList;
     }
 
-    public void setOrdenList(List<Orden> ordenList) {
-        this.ordenList = ordenList;
+    public void setOrdenVentaList(List<OrdenVenta> ordenVentaList) {
+        this.ordenVentaList = ordenVentaList;
+    }
+
+    @XmlTransient
+    public List<Inventario> getInventarioList() {
+        return inventarioList;
+    }
+
+    public void setInventarioList(List<Inventario> inventarioList) {
+        this.inventarioList = inventarioList;
     }
 
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (idProducto != null ? idProducto.hashCode() : 0);
+        hash += (id != null ? id.hashCode() : 0);
         return hash;
     }
 
@@ -129,7 +110,7 @@ public class Productos implements Serializable {
             return false;
         }
         Productos other = (Productos) object;
-        if ((this.idProducto == null && other.idProducto != null) || (this.idProducto != null && !this.idProducto.equals(other.idProducto))) {
+        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
         return true;
@@ -137,7 +118,7 @@ public class Productos implements Serializable {
 
     @Override
     public String toString() {
-        return "co.uniminuto.entidades.Productos[ idProducto=" + idProducto + " ]";
+        return "co.uniminuto.entidades.Productos[ id=" + id + " ]";
     }
     
 }

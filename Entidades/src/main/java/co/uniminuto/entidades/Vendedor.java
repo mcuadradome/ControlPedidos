@@ -24,50 +24,40 @@ import javax.xml.bind.annotation.XmlTransient;
  * @author Miguel
  */
 @Entity
-@Table(name = "USUARIO")
+@Table(name = "VENDEDOR")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Usuario.findAll", query = "SELECT u FROM Usuario u")
-    , @NamedQuery(name = "Usuario.findById", query = "SELECT u FROM Usuario u WHERE u.id = :id")
-    , @NamedQuery(name = "Usuario.findByNombre", query = "SELECT u FROM Usuario u WHERE u.nombre = :nombre")
-    , @NamedQuery(name = "Usuario.findByIdentificacion", query = "SELECT u FROM Usuario u WHERE u.identificacion = :identificacion")
-    , @NamedQuery(name = "Usuario.findByTelefono", query = "SELECT u FROM Usuario u WHERE u.telefono = :telefono")
-    , @NamedQuery(name = "Usuario.findByEmail", query = "SELECT u FROM Usuario u WHERE u.email = :email")})
-public class Usuario implements Serializable {
+    @NamedQuery(name = "Vendedor.findAll", query = "SELECT v FROM Vendedor v")
+    , @NamedQuery(name = "Vendedor.findById", query = "SELECT v FROM Vendedor v WHERE v.id = :id")
+    , @NamedQuery(name = "Vendedor.findByNombre", query = "SELECT v FROM Vendedor v WHERE v.nombre = :nombre")
+    , @NamedQuery(name = "Vendedor.findByTelefono", query = "SELECT v FROM Vendedor v WHERE v.telefono = :telefono")
+    , @NamedQuery(name = "Vendedor.findByEmail", query = "SELECT v FROM Vendedor v WHERE v.email = :email")
+    , @NamedQuery(name = "Vendedor.findByEstado", query = "SELECT v FROM Vendedor v WHERE v.estado = :estado")})
+public class Vendedor implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
     @Column(name = "id")
     private Integer id;
-    @Basic(optional = false)
     @Column(name = "nombre")
     private String nombre;
-    @Basic(optional = false)
-    @Column(name = "identificacion")
-    private String identificacion;
-    @Basic(optional = false)
     @Column(name = "telefono")
     private String telefono;
-    @Basic(optional = false)
     @Column(name = "email")
     private String email;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idUsuarioFk")
-    private List<UsuarioLogueado> usuarioLogueadoList;
+    @Column(name = "estado")
+    private Boolean estado;
+    @OneToMany(mappedBy = "vendedorFk")
+    private List<Venta> ventaList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idVendedorFk")
+    private List<CargueInventario> cargueInventarioList;
 
-    public Usuario() {
+    public Vendedor() {
     }
 
-    public Usuario(Integer id) {
+    public Vendedor(Integer id) {
         this.id = id;
-    }
-
-    public Usuario(Integer id, String nombre, String identificacion, String telefono, String email) {
-        this.id = id;
-        this.nombre = nombre;
-        this.identificacion = identificacion;
-        this.telefono = telefono;
-        this.email = email;
     }
 
     public Integer getId() {
@@ -86,14 +76,6 @@ public class Usuario implements Serializable {
         this.nombre = nombre;
     }
 
-    public String getIdentificacion() {
-        return identificacion;
-    }
-
-    public void setIdentificacion(String identificacion) {
-        this.identificacion = identificacion;
-    }
-
     public String getTelefono() {
         return telefono;
     }
@@ -110,13 +92,30 @@ public class Usuario implements Serializable {
         this.email = email;
     }
 
-    @XmlTransient
-    public List<UsuarioLogueado> getUsuarioLogueadoList() {
-        return usuarioLogueadoList;
+    public Boolean getEstado() {
+        return estado;
     }
 
-    public void setUsuarioLogueadoList(List<UsuarioLogueado> usuarioLogueadoList) {
-        this.usuarioLogueadoList = usuarioLogueadoList;
+    public void setEstado(Boolean estado) {
+        this.estado = estado;
+    }
+
+    @XmlTransient
+    public List<Venta> getVentaList() {
+        return ventaList;
+    }
+
+    public void setVentaList(List<Venta> ventaList) {
+        this.ventaList = ventaList;
+    }
+
+    @XmlTransient
+    public List<CargueInventario> getCargueInventarioList() {
+        return cargueInventarioList;
+    }
+
+    public void setCargueInventarioList(List<CargueInventario> cargueInventarioList) {
+        this.cargueInventarioList = cargueInventarioList;
     }
 
     @Override
@@ -129,10 +128,10 @@ public class Usuario implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Usuario)) {
+        if (!(object instanceof Vendedor)) {
             return false;
         }
-        Usuario other = (Usuario) object;
+        Vendedor other = (Vendedor) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -141,7 +140,7 @@ public class Usuario implements Serializable {
 
     @Override
     public String toString() {
-        return "co.uniminuto.entidades.Usuario[ id=" + id + " ]";
+        return "co.uniminuto.entidades.Vendedor[ id=" + id + " ]";
     }
     
 }

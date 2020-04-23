@@ -1,17 +1,57 @@
 <?xml version='1.0' encoding='UTF-8' ?> 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-      xmlns:h="http://xmlns.jcp.org/jsf/html">
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core">
+    
+    <f:view>
+        
+         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <title>Login</title>
+        <ui:debug />
+        <f:metadata>
+            <ui:insert name="metadata" />
+        </f:metadata>
+        
+         <h:head>
+            <p:ajaxStatus onstart="statusDialog.show();"
+                          onsuccess="statusDialog.hide();" />
+            <div>
+                <h:outputStylesheet name="jvlat-tres-a-1-top-menu.css" library="css" />
+                <link
+                    href="http://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,800|Shadows+Into+Light"
+                    rel="stylesheet" type="text/css" />
+                <div class="header_jv" style="height:40px!important">
+                    <h:graphicImage library="images" name="logosp.png" style="height:60px;margin-top: 10px;margin-left: 20px;margin-right:5px;float: left;" />
+                    <h:graphicImage library="images" name="logo.png" styleClass="pull-right" style="height:50px;margin-right:5px;" />
+                </div>
+            </div>
+        </h:head>
+        
+         <h:body>
+             
+             <h:form>
+                 <div>
+                    <div class="menuleft" style="float: left;">
 
-    <h:head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-        <h:outputStylesheet name="./css/default.css"/>
-        <h:outputStylesheet name="./css/cssLayout.css"/>
-        <title>Facelets Template</title>
-    </h:head>
-
-    <h:body>
+                    </div>
+                     
+                   <div class="contentarea" >
+                        
+                    </div>
+                     
+                     <div  class="footerarea" style="clear: both;margin-bottom:10px">
+                         <did>
+                             <div>
+                                 <h3>Login Footer</h3>
+                             </div>
+                         </did>
+                     </div>
+                     
+                 </div>
+             </h:form>
 
         <div id="top">
             <ui:insert name="top">Top</ui:insert>
@@ -26,5 +66,11 @@
         </div>
 
     </h:body>
+        
+    </f:view>
+
+    
+
+   
 
 </html>
