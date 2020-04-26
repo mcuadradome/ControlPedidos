@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://java.sun.com/jsf/core"
+                template="templates/menu_template.xhtml">
+
+    <ui:define name="metadata">
+    </ui:define>
+      
+        <ui:define name="content">
+                <p:dataTable var="car" value="#{loginMB.list}">
+               <p:column headerText="Id">
+                   <h:outputText value="#{car.id}" />
+               </p:column>
+
+               <p:column headerText="Nombre">
+                   <h:outputText value="#{car.nombre}" />
+               </p:column>
+
+               <p:column headerText="IVA">
+                   <h:outputText value="#{car.iva}" />
+               </p:column>
+
+               <p:column headerText="Precio">
+                   <h:outputText value="#{car.precio}" />
+               </p:column>
+           </p:dataTable>
+        </ui:define>
+    </ui:define>
+</ui:composition>

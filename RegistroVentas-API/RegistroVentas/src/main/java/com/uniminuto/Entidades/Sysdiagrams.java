@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package co.uniminuto.entidades;
+package com.uniminuto.Entidades;
 
 import java.io.Serializable;
 import javax.persistence.Basic;
@@ -14,6 +14,8 @@ import javax.persistence.Lob;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
@@ -24,22 +26,22 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Table(name = "sysdiagrams")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Sysdiagrams.findAll", query = "SELECT s FROM Sysdiagrams s")
-    , @NamedQuery(name = "Sysdiagrams.findByName", query = "SELECT s FROM Sysdiagrams s WHERE s.name = :name")
-    , @NamedQuery(name = "Sysdiagrams.findByPrincipalId", query = "SELECT s FROM Sysdiagrams s WHERE s.principalId = :principalId")
-    , @NamedQuery(name = "Sysdiagrams.findByDiagramId", query = "SELECT s FROM Sysdiagrams s WHERE s.diagramId = :diagramId")
-    , @NamedQuery(name = "Sysdiagrams.findByVersion", query = "SELECT s FROM Sysdiagrams s WHERE s.version = :version")})
+    @NamedQuery(name = "Sysdiagrams.findAll", query = "SELECT s FROM Sysdiagrams s")})
 public class Sysdiagrams implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 128)
     @Column(name = "name")
     private String name;
     @Basic(optional = false)
+    @NotNull
     @Column(name = "principal_id")
     private int principalId;
     @Id
     @Basic(optional = false)
+    @NotNull
     @Column(name = "diagram_id")
     private Integer diagramId;
     @Column(name = "version")
@@ -123,7 +125,7 @@ public class Sysdiagrams implements Serializable {
 
     @Override
     public String toString() {
-        return "co.uniminuto.entidades.Sysdiagrams[ diagramId=" + diagramId + " ]";
+        return "com.uniminuto.Entidades.Sysdiagrams[ diagramId=" + diagramId + " ]";
     }
     
 }

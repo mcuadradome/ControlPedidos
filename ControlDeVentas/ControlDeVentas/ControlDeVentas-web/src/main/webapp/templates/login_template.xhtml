@@ -5,17 +5,17 @@
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:p="http://primefaces.org/ui"
       xmlns:f="http://java.sun.com/jsf/core">
-    
-    <f:view>
-        
-         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+    <f:view contentType="text/html" id="fview">
+
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
         <title>Login</title>
         <ui:debug />
         <f:metadata>
             <ui:insert name="metadata" />
         </f:metadata>
-        
-         <h:head>
+
+        <h:head>
             <p:ajaxStatus onstart="statusDialog.show();"
                           onsuccess="statusDialog.hide();" />
             <div>
@@ -29,48 +29,32 @@
                 </div>
             </div>
         </h:head>
-        
-         <h:body>
-             
-             <h:form>
-                 <div>
+
+        <h:body>
+
+            <h:form>
+                <div>
                     <div class="menuleft" style="float: left;">
 
                     </div>
-                     
-                   <div class="contentarea" >
-                        
+
+                    <div class="contentarea" >
+                        <h:form id="mainForm">
+                            <p:messages  id="msgs" showDetail="false" showSummary="true" closable="true"/>
+                            <ui:insert name="content" />
+                        </h:form>
                     </div>
-                     
-                     <div  class="footerarea" style="clear: both;margin-bottom:10px">
-                         <did>
-                             <div>
-                                 <h3>Login Footer</h3>
-                             </div>
-                         </did>
-                     </div>
-                     
-                 </div>
-             </h:form>
 
-        <div id="top">
-            <ui:insert name="top">Top</ui:insert>
-        </div>
+                    <div  class="footerarea" style="clear: both;margin-bottom:10px">
+                        <did>
+                            <div>
+                                <h3>Login Footer</h3>
+                            </div>
+                        </did>
+                    </div>
 
-        <div id="content" class="center_content">
-            <ui:insert name="content">Content</ui:insert>
-        </div>
-
-        <div id="bottom">
-            <ui:insert name="bottom">Bottom</ui:insert>
-        </div>
-
-    </h:body>
-        
+                </div>
+            </h:form>
+        </h:body>
     </f:view>
-
-    
-
-   
-
 </html>

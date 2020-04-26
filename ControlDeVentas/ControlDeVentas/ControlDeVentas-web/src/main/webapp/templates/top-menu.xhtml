@@ -1,0 +1,23 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://java.sun.com/jsf/core">
+    
+    <h:outputStylesheet name="style-prime-messages.css" library="css" />
+
+    <div class="topbar">
+            <p:menubar style="margin-right:4px;" model="#{loginMB.model}" styleClass="customenu"/>
+
+            <div style="float: right; width: 250px;font-size:14px!important;padding-top:5px;">
+                <h:graphicImage library="images" name="Person.png" style="height:20px; width: 20px;margin-top: 5px;margin-right: 5px;" />
+                <h:outputText value="#{msg['lbl_user']}: " style="color:#ccc;font-size: 90% !important;" />
+                <h:outputText value="#{loginMB.user}" style="font-weight:bold;color:#fff;font-size: 90% !important;" />
+                <p:commandButton value="Salir" icon="ui-icon-extlink"  process="@this" actionListener="#{loginMB.cerrarSesion()}"
+                                 styleClass="logout-item" />
+
+            </div>
+        </div>
+</ui:composition>

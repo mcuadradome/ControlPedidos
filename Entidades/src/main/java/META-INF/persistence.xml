@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <persistence version="2.1" xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
   <persistence-unit name="EntidadesPU" transaction-type="JTA">
-    <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
+    <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
     <jta-data-source>Pedidos_jdni</jta-data-source>
     <class>co.uniminuto.entidades.Cliente</class>
     <class>co.uniminuto.entidades.Usuario</class>
@@ -14,6 +14,7 @@
     <class>co.uniminuto.entidades.CargueInventario</class>
     <class>co.uniminuto.entidades.Zona</class>
     <class>co.uniminuto.entidades.OrdenVenta</class>
+    <class>co.uniminuto.entidades.UsuarioRegistrado</class>
     <exclude-unlisted-classes>true</exclude-unlisted-classes>
     <properties>
       <property name="eclipselink.jdbc.batch-writing" value="JDBC"/>

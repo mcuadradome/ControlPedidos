@@ -8,6 +8,15 @@
     <ui:define name="metadata">
     </ui:define>
     <ui:define name="content">
+        
+        <style type="text/css">
+                        
+            .imgCenter{
+               margin-left:auto;
+               margin-right:auto;
+               display: block;
+            }
+        </style>
 
         <!-- espacio login -->
         <div class="middle-content" style="text-align:center; border: white; float:right; margin-right: 100px">
@@ -16,28 +25,29 @@
             <h:outputText   value="Ingreso al sistema" style="text-align:center; float:left; margin-left: 70px;"/>
             <br/>
             
-            <p:panelGrid>
-                <p:outputLabel value="User"/>
-                <p:inputText value="" />
-                
-                <p:outputLabel value="Password"/>
-                <p:password  required="true"/>
-                
-                
-                <h:outputText  value=""/>
-                <p:commandButton  value="Ingresar"/>
-                
-            </p:panelGrid>
-            
+            <h:panelGrid columns="2" cellpadding="5" style=" text-align:center; margin: auto">
+
+                        <p:outputLabel value="User" class="txt1 p-b-11"/>
+                        <p:inputText  value="#{loginMB.user}" required="true"/>
+
+
+                        <p:outputLabel value="Password"/>
+                        <p:password value="#{loginMB.pass}" required="true" />
+                         
+                       <h:outputText  value=""/>
+                       <p:commandLink id="ajax" update=""  style="margin-right:20px;">
+                            <h:outputText value="Olvido Contraseña" />
+                        </p:commandLink>
+                        
+                        <h:outputText  value=""/>
+                        <p:commandButton  value="Ingresar" action="#{loginMB.Ingresar()}" />
+            </h:panelGrid>
         </div>
-        
-        </p>
-        <div>
+         <div>  
             <table>
-                <tr>
-                    <td></td>
-                    <td></td>
-                </tr>
+                    <tr><td> <h:graphicImage library="images" name="estapas-sopp.png"  style="float:left; max-width:100%; height: auto; "/>  </td>
+                    <td> <p> <h:graphicImage library="images" name="pantalla-principal.gif"  style="float:right; text-align:center; max-width:100%; height: auto; " /> </p> </td>
+                    </tr>
             </table>
         </div>
     </ui:define>

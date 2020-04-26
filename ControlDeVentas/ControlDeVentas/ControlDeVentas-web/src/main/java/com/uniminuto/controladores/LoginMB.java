@@ -5,9 +5,18 @@
  */
 package com.uniminuto.controladores;
 
+import co.uniminuto.entidades.UsuarioRegistrado;
+import co.uniminuto.login.logica.LoginEJB;
+import com.uniminuto.logica.VO.ProductosVO;
+import com.uniminuto.login.vo.UsuarioVO;
 import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
 import java.io.Serializable;
+import java.util.List;
+import javax.annotation.PostConstruct;
+import javax.ejb.EJB;
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
 
 /**
  *
@@ -17,10 +26,78 @@ import java.io.Serializable;
 @SessionScoped
 public class LoginMB implements Serializable {
 
-    /**
-     * Creates a new instance of LoginMB
-     */
+    private String user;
+    private String pass;
+
+    
+    @EJB
+    LoginEJB loginEJB;
+    
     public LoginMB() {
     }
+    
+    @PostConstruct
+    public void  init(){
+      
+    }
+    
+    
+    public String Ingresar(){
+        UsuarioVO usuarioVO = new UsuarioVO();
+        
+        usuarioVO.setUsuario(user);
+        usuarioVO.setPassword(pass);
+        
+        UsuarioRegistrado usuarioRegistrado = loginEJB.existUser(usuarioVO);
+      
+        if(usuarioRegistrado != null){
+            System.out.println("Res " + usuarioRegistrado.getUsuario());
+            if(usuarioRegistrado.getUsuario().equals(user) && usuarioRegistrado.getPassword().equals(pass)){
+               return "/menu"; 
+            }else{
+                return "/Error";
+            }
+        }else{
+           FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, 
+                   "Error!", "Error no encontrado ")); 
+           return "";
+        }
+      
+    }
+    
+    public String cerrarSesion(){
+        return "/index.xhtml";
+    }
+
+
+    // Getter and Setters
+    
+   
+    public String getUser() {
+        return user;
+    }
+
+    public void setUser(String user) {
+        this.user = user;
+    }
+
+    public String getPass() {
+        return pass;
+    }
+
+    public void setPass(String pass) {
+        this.pass = pass;
+    }
+
+    public LoginEJB getLoginEJB() {
+        return loginEJB;
+    }
+
+    public void setLoginEJB(LoginEJB loginEJB) {
+        this.loginEJB = loginEJB;
+    }
+    
+    
+    
     
 }

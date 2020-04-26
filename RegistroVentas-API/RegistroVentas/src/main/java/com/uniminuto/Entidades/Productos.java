@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package co.uniminuto.entidades;
+package com.uniminuto.Entidades;
 
 import java.io.Serializable;
 import java.util.List;
@@ -16,6 +16,8 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
@@ -26,20 +28,17 @@ import javax.xml.bind.annotation.XmlTransient;
 @Entity
 @Table(name = "PRODUCTOS")
 @XmlRootElement
-@NamedQueries({
-    @NamedQuery(name = "Productos.findAll", query = "SELECT p FROM Productos p")
-    , @NamedQuery(name = "Productos.findById", query = "SELECT p FROM Productos p WHERE p.id = :id")
-    , @NamedQuery(name = "Productos.findByNombre", query = "SELECT p FROM Productos p WHERE p.nombre = :nombre")
-    , @NamedQuery(name = "Productos.findByIva", query = "SELECT p FROM Productos p WHERE p.iva = :iva")
-    , @NamedQuery(name = "Productos.findByPrecio", query = "SELECT p FROM Productos p WHERE p.precio = :precio")
-    , @NamedQuery(name = "Productos.findByEmbalaje", query = "SELECT p FROM Productos p WHERE p.embalaje = :embalaje")})
+@NamedQueries({@NamedQuery(name = "Productos.findAll", query = "SELECT p FROM Productos p")})
 public class Productos implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 50)
     @Column(name = "id")
     private String id;
+    @Size(max = 50)
     @Column(name = "nombre")
     private String nombre;
     @Column(name = "iva")
@@ -140,7 +139,7 @@ public class Productos implements Serializable {
 
     @Override
     public String toString() {
-        return "co.uniminuto.entidades.Productos[ id=" + id + " ]";
+        return "com.uniminuto.Entidades.Productos[ id=" + id + " ]";
     }
     
 }

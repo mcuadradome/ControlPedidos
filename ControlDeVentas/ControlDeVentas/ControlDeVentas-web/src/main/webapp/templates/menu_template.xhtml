@@ -1,33 +1,66 @@
-<?xml version='1.0' encoding='UTF-8' ?> 
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:p="http://primefaces.org/ui"
       xmlns:f="http://java.sun.com/jsf/core">
-    
-    
-    <f:view>
-    <h:head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-        <h:outputStylesheet name="./css/default.css"/>
-        <h:outputStylesheet name="./css/cssLayout.css"/>
-        <title>Facelets Template</title>
-    </h:head>
 
-    <h:body>
+    <f:view contentType="text/html" id="fview">
 
-        <div id="top" class="top">
-            <ui:insert name="top">Top</ui:insert>
-        </div>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <title>Menu</title>
+        <ui:debug />
+        <f:metadata>
+            <ui:insert name="metadata" />
+        </f:metadata>
 
-        <div id="content" class="center_content">
-            <ui:insert name="content">Content</ui:insert>
-        </div>
+        <h:head>
+            <div>
+                <!--<h:outputScript name="treeTableCat.js" library="js"/>-->
+                <!--<h:outputStylesheet name="jvlat-tres-a-1-top-menu.css" library="css" />-->
+                <link
+                    href="http://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,800|Shadows+Into+Light"
+                    rel="stylesheet" type="text/css" />
+                <div class="header_jv">
+                    <h:graphicImage library="images" name="logosp.png" style="height:60px;margin-top: 10px;margin-left: 20px;float: left;" />
+                    <h:graphicImage library="images" name="logo.png" styleClass="pull-right" style="height:50px;margin-right:5px;" />
+                    <ui:include src="/templates/top-menu.xhtml" />
+                </div>
+            </div>
+        </h:head>
 
-    </h:body>
+        <h:body>
+            <div>
+                <div class="menuleft" style="float: left;">
+
+                </div>
+
+                <div class="contentarea">                   
+                   <h:form id="mainForm">
+                        <p:messages  id="msgs" showDetail="false"
+                                    showSummary="true" closable="true"/>
+                        <ui:insert name="content" />
+                   </h:form>
+                   
+                    <p:ajaxStatus onstart="PF('statusDialog').show()" onsuccess="PF('statusDialog').hide()" />
+
+                    <p:dialog widgetVar="statusDialog" modal="true" draggable="false" closable="false" resizable="false" showHeader="false">
+                        <p:graphicImage name="images/ajaxloadingbar.gif" />
+                    </p:dialog>
+                   
+                </div>
+
+                <div class="footerarea" style="clear: both;margin-bottom:10px">
+
+                    <div class="fongrey font-size-cero">
+                        <div style="margin-right: 10px;color:#fff;padding-top:8px;padding-bottom:5px;">© Copyright 2011 - 2018 por
+                            Juegos de Video Latinoamerica. Todos los derechos reservados.</div>
+                        <div class="fonpic"></div>
+                    </div>
+                </div>
+            </div>
+        </h:body>
     </f:view>
-
-
-
 </html>

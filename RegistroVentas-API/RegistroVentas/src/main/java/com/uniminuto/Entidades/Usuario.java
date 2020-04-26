@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package co.uniminuto.entidades;
+package com.uniminuto.Entidades;
 
 import java.io.Serializable;
 import java.util.List;
@@ -16,6 +16,8 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
@@ -27,35 +29,38 @@ import javax.xml.bind.annotation.XmlTransient;
 @Table(name = "USUARIO")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Usuario.findAll", query = "SELECT u FROM Usuario u")
-    , @NamedQuery(name = "Usuario.findById", query = "SELECT u FROM Usuario u WHERE u.id = :id")
-    , @NamedQuery(name = "Usuario.findByNombre", query = "SELECT u FROM Usuario u WHERE u.nombre = :nombre")
-    , @NamedQuery(name = "Usuario.findByIdentificacion", query = "SELECT u FROM Usuario u WHERE u.identificacion = :identificacion")
-    , @NamedQuery(name = "Usuario.findByTelefono", query = "SELECT u FROM Usuario u WHERE u.telefono = :telefono")
-    , @NamedQuery(name = "Usuario.findByEmail", query = "SELECT u FROM Usuario u WHERE u.email = :email")})
+    @NamedQuery(name = "Usuario.findAll", query = "SELECT u FROM Usuario u")})
 public class Usuario implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
+    @NotNull
     @Column(name = "id")
     private Integer id;
     @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 50)
     @Column(name = "nombre")
     private String nombre;
     @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 50)
     @Column(name = "identificacion")
     private String identificacion;
     @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 50)
     @Column(name = "telefono")
     private String telefono;
+    // @Pattern(regexp="[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?", message="Invalid email")//if the field contains email address consider using this annotation to enforce field validation
     @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 50)
     @Column(name = "email")
     private String email;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idUsuarioFk")
     private List<UsuarioLogueado> usuarioLogueadoList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idUsuarioFk")
-    private List<UsuarioRegistrado> usuarioRegistradoList;
 
     public Usuario() {
     }
@@ -121,15 +126,6 @@ public class Usuario implements Serializable {
         this.usuarioLogueadoList = usuarioLogueadoList;
     }
 
-    @XmlTransient
-    public List<UsuarioRegistrado> getUsuarioRegistradoList() {
-        return usuarioRegistradoList;
-    }
-
-    public void setUsuarioRegistradoList(List<UsuarioRegistrado> usuarioRegistradoList) {
-        this.usuarioRegistradoList = usuarioRegistradoList;
-    }
-
     @Override
     public int hashCode() {
         int hash = 0;
@@ -152,7 +148,7 @@ public class Usuario implements Serializable {
 
     @Override
     public String toString() {
-        return "co.uniminuto.entidades.Usuario[ id=" + id + " ]";
+        return "com.uniminuto.Entidades.Usuario[ id=" + id + " ]";
     }
     
 }
