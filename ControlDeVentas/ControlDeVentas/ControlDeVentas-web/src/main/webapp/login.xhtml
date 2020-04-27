@@ -25,6 +25,8 @@
             <h:outputText   value="Ingreso al sistema" style="text-align:center; float:left; margin-left: 70px;"/>
             <br/>
             
+            <p:graphicImage class="imgCenter" alt="user" value="resources/images/user.png"
+                        
             <h:panelGrid columns="2" cellpadding="5" style=" text-align:center; margin: auto">
 
                         <p:outputLabel value="User" class="txt1 p-b-11"/>
@@ -43,13 +45,7 @@
                         <p:commandButton  value="Ingresar" action="#{loginMB.Ingresar()}" />
             </h:panelGrid>
         </div>
-         <div>  
-            <table>
-                    <tr><td> <h:graphicImage library="images" name="estapas-sopp.png"  style="float:left; max-width:100%; height: auto; "/>  </td>
-                    <td> <p> <h:graphicImage library="images" name="pantalla-principal.gif"  style="float:right; text-align:center; max-width:100%; height: auto; " /> </p> </td>
-                    </tr>
-            </table>
-        </div>
+       
     </ui:define>
 </ui:composition>
 

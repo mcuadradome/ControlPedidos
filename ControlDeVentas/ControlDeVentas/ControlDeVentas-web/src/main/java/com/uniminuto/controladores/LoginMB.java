@@ -17,13 +17,14 @@ import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
+import javax.faces.view.ViewScoped;
 
 /**
  *
  * @author Miguel
  */
 @Named(value = "loginMB")
-@SessionScoped
+@ViewScoped
 public class LoginMB implements Serializable {
 
     private String user;
@@ -53,14 +54,14 @@ public class LoginMB implements Serializable {
         if(usuarioRegistrado != null){
             System.out.println("Res " + usuarioRegistrado.getUsuario());
             if(usuarioRegistrado.getUsuario().equals(user) && usuarioRegistrado.getPassword().equals(pass)){
-               return "/menu"; 
+               return "/Home.xhtml"; 
             }else{
-                return "/Error";
+                return "/Error.xhtml";
             }
         }else{
            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, 
                    "Error!", "Error no encontrado ")); 
-           return "";
+           return "/Home.xhtm";
         }
       
     }

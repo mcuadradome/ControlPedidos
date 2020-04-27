@@ -6,12 +6,53 @@
       xmlns:p="http://primefaces.org/ui">
     <h:head>
         <title>Login</title>
-   
+        <style>
+             .imgCenter{
+               margin-left:auto;
+               margin-right:auto;
+               display: block;
+               width: 300px;
+               height: 300px;
+            }
+            
+            .title{
+                font-size: 20px;
+                font-style: italic;
+                font-weight: bold;
+            }
+        </style>
     </h:head>
     <h:body>
         <h:form>
-            <br />
-         
+        <br/>
+        <br/>
+            <div class="middle-content" style="text-align:center; border: white; margin-right: 100px;">
+            
+            
+                <h:outputText  class="title" value="Ingreso al sistema" style="text-align:center; margin: auto"/>
+            <br/>
+            
+            <p:graphicImage class="imgCenter" alt="user" value="resources/images/user.png" />
+            
+            <h:panelGrid columns="2" cellpadding="5" style=" text-align:center; margin: auto">
+
+                        <p:outputLabel value="User" class="txt1 p-b-11"/>
+                        <p:inputText  value="#{loginMB.user}" required="true"/>
+
+
+                        <p:outputLabel value="Password"/>
+                        <p:password value="#{loginMB.pass}" required="true" />
+                         
+                       <h:outputText  value=""/>
+                       <p:commandLink id="ajax" update=""  style="margin-right:20px;">
+                            <h:outputText value="Olvido Contraseña" />
+                        </p:commandLink>
+                        
+                        <h:outputText  value=""/>
+                        <p:commandButton  value="Ingresar" action="#{loginMB.Ingresar()}" />
+            </h:panelGrid>
+        </div>
+        
         </h:form>
     </h:body>
 </html>

@@ -1,38 +1,127 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
-To change this license header, choose License Headers in Project Properties.
-To change this template file, choose Tools | Templates
-and open the template in the editor.
--->
-<!DOCTYPE html>
-<ui:composition xmlns="http://www.w3.org/1999/xhtml"
-                xmlns:ui="http://java.sun.com/jsf/facelets"
-                xmlns:h="http://java.sun.com/jsf/html"
-                xmlns:p="http://primefaces.org/ui"
-                xmlns:f="http://java.sun.com/jsf/core"
-                template="templates/menu_template.xhtml">
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      template="templates/top-menu.xhtml">
 
-    <ui:define name="metadata">
-    </ui:define>
-      
-        <ui:define name="content">
-                <p:dataTable var="car" value="#{loginMB.list}">
-               <p:column headerText="Id">
+    <h:head>
+        <title>Home</title>
+        <style>
+             .imgCenter{
+               margin-left:auto;
+               margin-right:auto;
+               display: block;
+            }
+            
+            .ui-datatable {
+                 margin-bottom: 25px
+            }
+ 
+            .ui-datatable .ui-datatable-header {
+                text-align: right !important;
+            }
+ 
+        </style>
+    </h:head>
+    <h:body>
+        <h:form id="form">
+    
+         <p:growl id="msgs" showDetail="true" />
+    
+    
+        <div class="topbar">
+    <!--     <p:menubar  styleClass="customenu">
+            
+           <p:menuitem  url="Home.xhtml" icon="ui-icon-home" />
+            
+            <p:menuButton value="{loginMB.user}" icon="ui-icon-persona">
+                <p:menuitem value="Salir" action="{loginMB.cerrarSesion()}" update="form" icon="pi pi-times"/>
+           
+            </p:menuButton> 
+                     
+                
+        </p:menubar>-->
+       
+        </div>
+         
+        <br/>
+         <div class="contentarea" >
+             <p:dataTable var="car" id="tableProd" value="#{homeMB.list}" rows="10"
+                        paginator="true"
+                        editable="true"
+                        editMode="cell"
+                        widgetVar="cellProduct"
+                        paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                        currentPageReportTemplate="{startRecord}-{endRecord} of {totalRecords} records"
+                        rowsPerPageTemplate="5,10,15">
+                
+                <p:ajax event="cellEdit" listener="#{homeMB.onCellEdit}" update=":form:msgs, :form:tableProd " />
+                
+                <f:facet name="header" class="btnAdd">
+                    <p:commandButton value="Agregar" icon="ui-icon-document" onclick="PF('dlgAdd').show()"  />
+                 </f:facet>
+                
+                <p:column headerText="Id" >
                    <h:outputText value="#{car.id}" />
                </p:column>
 
                <p:column headerText="Nombre">
-                   <h:outputText value="#{car.nombre}" />
+                   <p:cellEditor>
+                        <f:facet name="output"><h:outputText value="#{car.nombre}" /></f:facet>
+                        <f:facet name="input"><p:inputText  value="#{car.nombre}" style="width:96%"/></f:facet>
+                   </p:cellEditor>               
                </p:column>
 
                <p:column headerText="IVA">
-                   <h:outputText value="#{car.iva}" />
+                   <p:cellEditor>
+                       <f:facet name="output"><h:outputText value="#{car.iva}" /></f:facet>
+                       <f:facet name="input"><p:inputText  value="#{car.iva}" style="width:96%"/></f:facet>
+                   </p:cellEditor>                 
                </p:column>
 
                <p:column headerText="Precio">
-                   <h:outputText value="#{car.precio}" />
+                    <p:cellEditor>
+                       <f:facet name="output"><h:outputText value="#{car.precio}" /></f:facet>
+                       <f:facet name="input"><p:inputText  value="#{car.precio}" style="width:96%"/></f:facet>
+                   </p:cellEditor>                     
                </p:column>
            </p:dataTable>
-        </ui:define>
-    </ui:define>
-</ui:composition>
+             
+    </div>
+    
+    <p:dialog widgetVar="dlgAdd" closable="true" header="Agregar Producto" maximizable="false" resizable="false"
+              closeOnEscape="true" height="300px" width="400px" showEffect="fade" hideEffect="fade" position="top"  modal="true">
+        
+        <h:panelGrid columns="2" cellpadding="6" style=" text-align:center; margin: auto">
+            
+            <p:outputLabel value="Codigo" class="txt1 p-b-11"/>
+            <p:inputText  value="#{homeMB.codigo}" maxlength="5" required="true"/>
+            
+            <p:outputLabel value="Nombre" class="txt1 p-b-11"/>
+            <p:inputText  value="#{homeMB.nombreProducto}" required="true"/>
+            
+            <p:outputLabel value="IVA" class="txt1 p-b-11"/>
+            <p:inputText  value="#{homeMB.IVA}" maxlength="2" required="true"/>
+            
+            <p:outputLabel value="Precio" class="txt1 p-b-11"/>
+            <p:inputText  value="#{homeMB.precio}" maxlength="6" required="true"/>
+            
+            <p:outputLabel value="Embalaje" class="txt1 p-b-11"/>
+            <p:inputText  value="#{homeMB.embalaje}" maxlength="2" required="true"/>
+            
+            <p:outputLabel value="" class="txt1 p-b-11"/>
+            <p:commandButton value="Agregar" action="#{homeMB.insertProduct()}" update="tableProd, :form:msgs" onsuccess="PF('dlgAdd').hide()" />
+                
+            
+        </h:panelGrid>
+        
+    </p:dialog>
+           
+    </h:form>
+    </h:body>
+</html>
+    
+    
