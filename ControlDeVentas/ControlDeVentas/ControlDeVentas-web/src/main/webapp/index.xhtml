@@ -3,18 +3,19 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:ui="http://java.sun.com/jsf/facelets"
-      xmlns:p="http://primefaces.org/ui">
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
     <h:head>
         <title>Login</title>
         <style>
-             .imgCenter{
-               margin-left:auto;
-               margin-right:auto;
-               display: block;
-               width: 300px;
-               height: 300px;
+            .imgCenter{
+                margin-left:auto;
+                margin-right:auto;
+                display: block;
+                width: 300px;
+                height: 300px;
             }
-            
+
             .title{
                 font-size: 20px;
                 font-style: italic;
@@ -23,37 +24,57 @@
         </style>
     </h:head>
     <h:body>
-        <h:form>
-        <br/>
-        <br/>
-            <div class="middle-content" style="text-align:center; border: white; margin-right: 100px;">
-            
-            
-                <h:outputText  class="title" value="Ingreso al sistema" style="text-align:center; margin: auto"/>
+        <h:form id="form">
+            <p:growl id="messsages" showDetail="true"  />
             <br/>
-            
-            <p:graphicImage class="imgCenter" alt="user" value="resources/images/user.png" />
-            
-            <h:panelGrid columns="2" cellpadding="5" style=" text-align:center; margin: auto">
-
-                        <p:outputLabel value="User" class="txt1 p-b-11"/>
-                        <p:inputText  value="#{loginMB.user}" required="true"/>
+            <br/>
+            <div class="middle-content" style="text-align:center; border: white; margin-right: 100px;">
 
 
-                        <p:outputLabel value="Password"/>
-                        <p:password value="#{loginMB.pass}" required="true" />
-                         
-                       <h:outputText  value=""/>
-                       <p:commandLink id="ajax" update=""  style="margin-right:20px;">
-                            <h:outputText value="Olvido Contraseña" />
-                        </p:commandLink>
-                        
-                        <h:outputText  value=""/>
-                        <p:commandButton  value="Ingresar" action="#{loginMB.Ingresar()}" />
-            </h:panelGrid>
-        </div>
-        
+                <h:outputText  class="title" value="Ingreso al sistema" style="text-align:center; margin: auto"/>
+                <br/>
+
+                <p:graphicImage class="imgCenter" alt="user" value="resources/images/user.png" />
+
+                <h:panelGrid id="panel" columns="2" cellpadding="5" style=" text-align:center; margin: auto">
+
+                    <p:outputLabel value="User" class="txt1 p-b-11"/>
+                    <p:inputText  value="#{loginMB.user}" required="true"/>
+
+                    <p:outputLabel value="Password"/>
+                    <p:password value="#{loginMB.pass}" required="true" />
+
+                    <h:outputText  value=""/>
+                    <p:commandLink id="ajax" update=""  style="margin-right:20px;" onclick="PF('dglChangePassword').show()">
+                        <h:outputText value="Olvido Contraseña" />
+                    </p:commandLink>
+
+                    <h:outputText  value=""/>
+                    <p:commandButton  value="Ingresar" update="panel, :form:messsages" action="#{loginMB.Ingresar()}" />
+                </h:panelGrid>
+            </div> 
+
+            <p:dialog widgetVar="dglChangePassword"  closable="true" minimizable="false" closeOnEscape="true" maximizable="false"
+                      width="350" height="400" header="Cambio Contraseña" resizable="false" modal="true">
+
+                <h:panelGrid columns="3" id="changePass" style=" text-align:center; margin: auto">
+
+                    <p:outputLabel value="Usuario" />
+                    <h:inputText value="#{loginMB.userToFind}" style="width: 150px;"/>
+                    <p:commandButton value="" style="width: 50px;" icon="ui-icon-search" action="#{loginMB.findUser()}" update="changePass"/>
+
+                    <div>
+                        <p:outputLabel value="Contraseña"  />
+                        <h:inputText value="#{loginMB.passToChanged}" disabled="#{loginMB.enablePass}"/>
+                        <p:commandButton value="" action="#{loginMB.changePass()}" disabled="#{loginMB.enablePass}" />    
+                    </div>
+
+                </h:panelGrid>
+
+            </p:dialog>            
         </h:form>
+
+
     </h:body>
 </html>
 

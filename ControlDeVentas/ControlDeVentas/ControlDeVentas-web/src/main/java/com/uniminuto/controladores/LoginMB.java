@@ -29,51 +29,91 @@ public class LoginMB implements Serializable {
 
     private String user;
     private String pass;
-
     
+       private String userToFind;
+    private String passToChanged;
+    private boolean enablePass;
+
     @EJB
     LoginEJB loginEJB;
-    
+
     public LoginMB() {
     }
-    
+
     @PostConstruct
-    public void  init(){
-      
+    public void init() {
+        
+        enablePass=true;
     }
-    
-    
-    public String Ingresar(){
-        UsuarioVO usuarioVO = new UsuarioVO();
+
+    public String Ingresar() {
+
+        UsuarioRegistrado usuarioRegistrado = loginEJB.existUser(user, pass);
         
-        usuarioVO.setUsuario(user);
-        usuarioVO.setPassword(pass);
-        
-        UsuarioRegistrado usuarioRegistrado = loginEJB.existUser(usuarioVO);
-      
-        if(usuarioRegistrado != null){
-            System.out.println("Res " + usuarioRegistrado.getUsuario());
-            if(usuarioRegistrado.getUsuario().equals(user) && usuarioRegistrado.getPassword().equals(pass)){
-               return "/Home.xhtml"; 
-            }else{
-                return "/Error.xhtml";
+        if (usuarioRegistrado != null) {
+            System.out.println("Res " + usuarioRegistrado.getUsuario() + " pass "+ usuarioRegistrado.getPassword() );
+            if (usuarioRegistrado.getUsuario().equals(user) && usuarioRegistrado.getPassword().equals(pass)) {
+                boolean existuser = loginEJB.insertUserLog(usuarioRegistrado);
+                if (existuser) {
+                    System.out.println("entro if");
+                    return "/Home.xhtml";
+                }else{
+                   FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN,
+                        "Informacion!", "Usuario no encontrado "));
+                return "/index.xhtml"; 
+                }
+            } else {
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL,
+                        "Error!", "Error no encontrado "));
+                return "/index.xhtml";
             }
-        }else{
-           FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, 
-                   "Error!", "Error no encontrado ")); 
-           return "/Home.xhtm";
         }
-      
-    }
-    
-    public String cerrarSesion(){
         return "/index.xhtml";
     }
 
+    public void changePass() {
+
+        UsuarioRegistrado usuarioRegistrado = loginEJB.existUser(user);
+
+        if (usuarioRegistrado != null) {
+            System.out.println("Res " + usuarioRegistrado.getUsuario());
+            if (usuarioRegistrado.getUsuario().equals(user)) {
+                loginEJB.updatePass(usuarioRegistrado);
+            } else {
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN,
+                    "Error!", "No se pudo actualizar la contraseña"));
+            }
+        } else {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL,
+                    "Error!", "Error no encontrado "));
+
+        }
+    }
+    
+    public void findUser(){
+        
+      UsuarioRegistrado usuarioRegistrado = loginEJB.existUser(user);
+      if(usuarioRegistrado != null){
+          enablePass=true;
+      }else{
+           FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN,
+                    "Informacion", "Usuario no encontrado "));
+      }
+    }
+
+    public String cerrarSesion() {
+        
+        if(loginEJB.deleteUserLog(user)){
+             return "/index.xhtml";
+        }else{
+             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL,
+                    "Error!", "Error no encontrado "));
+            return "";
+        }
+
+    }
 
     // Getter and Setters
-    
-   
     public String getUser() {
         return user;
     }
@@ -97,8 +137,31 @@ public class LoginMB implements Serializable {
     public void setLoginEJB(LoginEJB loginEJB) {
         this.loginEJB = loginEJB;
     }
+
+    public boolean isEnablePass() {
+        return enablePass;
+    }
+
+    public void setEnablePass(boolean enablePass) {
+        this.enablePass = enablePass;
+    }
+
+    public String getUserToFind() {
+        return userToFind;
+    }
+
+    public void setUserToFind(String userToFind) {
+        this.userToFind = userToFind;
+    }
+
+    public String getPassToChanged() {
+        return passToChanged;
+    }
+
+    public void setPassToChanged(String passToChanged) {
+        this.passToChanged = passToChanged;
+    }
     
     
-    
-    
+
 }

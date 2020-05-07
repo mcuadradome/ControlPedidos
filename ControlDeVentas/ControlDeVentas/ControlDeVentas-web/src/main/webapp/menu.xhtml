@@ -4,34 +4,43 @@
                 xmlns:ui="http://java.sun.com/jsf/facelets"
                 xmlns:h="http://java.sun.com/jsf/html"
                 xmlns:p="http://primefaces.org/ui"
-                xmlns:f="http://java.sun.com/jsf/core"
-                template="templates/menu_template.xhtml">
-  
+                xmlns:f="http://java.sun.com/jsf/core">
+
     <ui:define name="metadata">
     </ui:define>
-    
+
     <style type="text/css">
-    .ui-stack {
-        z-index: 900;
-    }
+        .ui-stack {
+            z-index: 900;
+        }
     </style>
-    
+
     <ui:define name="content">
-        
+
     </ui:define>
-    
+
     <ui:define name="content">
-        
-       <div class="font-cero font-color-white title-content">
-            <h:outputText value="Menu" />
+
+        <div class="font-cero font-color-white title-content">
+
         </div>
         <div class="middle-content">
             <div class="roundtablez">
-               
+                <p:menubar  styleClass="customenu">
+
+                    <p:menuitem  url="Home.xhtml" icon="ui-icon-home" />
+
+                    <p:menuButton value="{loginMB.user}" icon="ui-icon-persona">
+                        <p:menuitem value="Salir" action="{loginMB.cerrarSesion()}" update="form" icon="pi pi-times"/>
+
+                    </p:menuButton> 
+
+
+                </p:menubar>
             </div>
             <div class="formsearch"
                  style="width: 100%; margin-top: 10px; height: 10px;"></div>
         </div>
-        
+
     </ui:define>
 </ui:composition>

@@ -45,9 +45,10 @@ public class Zona implements Serializable {
     @Basic(optional = false)
     @Column(name = "id_vendedor_fk")
     private int idVendedorFk;
+    @Basic(optional = false)
     @Column(name = "id_zona_fk")
     private String idZonaFk;
-    @OneToMany(mappedBy = "idZonaFk")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idZonaFk")
     private List<Venta> ventaList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idZonaFk")
     private List<CargueInventario> cargueInventarioList;
@@ -59,10 +60,11 @@ public class Zona implements Serializable {
         this.id = id;
     }
 
-    public Zona(String id, String nombre, int idVendedorFk) {
+    public Zona(String id, String nombre, int idVendedorFk, String idZonaFk) {
         this.id = id;
         this.nombre = nombre;
         this.idVendedorFk = idVendedorFk;
+        this.idZonaFk = idZonaFk;
     }
 
     public String getId() {

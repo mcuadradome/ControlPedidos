@@ -5,12 +5,14 @@
  */
 package co.uniminuto.login.logica;
 
+import co.uniminuto.entidades.UsuarioLogueado;
 import co.uniminuto.entidades.UsuarioRegistrado;
 import com.uniminuto.logica.VO.ProductosVO;
 import com.uniminuto.login.vo.UsuarioVO;
 import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.PostConstruct;
+import javax.ejb.Singleton;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -21,7 +23,7 @@ import javax.persistence.TypedQuery;
  *
  * @author Miguel
  */
-@Stateless
+@Singleton
 public class LoginEJB extends AbstractFacade{
 
     private UsuarioRegistrado usuarioLogueado;
@@ -46,25 +48,96 @@ public class LoginEJB extends AbstractFacade{
         usuarioLogueado = new UsuarioRegistrado();
     }
     
-    public UsuarioRegistrado existUser(UsuarioVO usuarioVO){
+    public UsuarioRegistrado existUser(String usuario){
         
         try {
-            System.out.println("User " +usuarioVO.getUsuario() + " : " + usuarioVO.getPassword());
-            //String sql ="select * from USUARIO_REGISTRADO  where usuario= :usuario and password= :password";
-            
-            usuarioLogueado = (UsuarioRegistrado) em.createNamedQuery("UsuarioRegistrado.findByUsuario").setParameter("usuario", usuarioVO.getUsuario()).getSingleResult();
-           // query.setParameter("usuario", usuarioVO.getUsuario());
-           // query.setParameter("password", usuarioVO.getPassword());
-            
+            System.out.println("User " + usuario);
+              
+            usuarioLogueado = (UsuarioRegistrado) em.createNamedQuery("UsuarioRegistrado.findByUsuario").setParameter("usuario", usuario).getSingleResult();
+       
            return usuarioLogueado;
             
         } catch (Exception e) {
-            System.err.println("Error al consultar usuario " + usuarioVO.getUsuario() + e.getMessage());
+            System.err.println("Error al consultar usuario " + usuario + e.getMessage());
             return null;
         }
     
     }
     
-   
+    public UsuarioRegistrado existUser(String usuario, String pass){
+        
+        try {
+            UsuarioRegistrado usuarioRegistrado = new UsuarioRegistrado();
+            System.out.println("User " + usuario + " pass " + pass);
+           // String sql ="select * from USUARIO_REGISTRADO  where usuario= :usuario and password= :password";
+            usuarioRegistrado = (UsuarioRegistrado) em.createNamedQuery("UsuarioRegistrado.findByUsuario")
+                    .setParameter("usuario", usuario).getSingleResult();
+       
+           // Query query = em.createNativeQuery(sql);
+            //query.setParameter("usuario", usuario);
+            //query.setParameter("password", pass);
+      
+           return usuarioRegistrado;
+            
+        } catch (Exception e) {
+            System.err.println("Error al consultar usuario registrado: " + usuario + e.getMessage());
+            return null;
+        }
+    
+    }
+    
+    public boolean insertUserLog(UsuarioRegistrado registrado){
+        try {
+            if(registrado != null){
+                UsuarioLogueado usuarioLogueado = new UsuarioLogueado();
+                
+                String sql= "INSERT INTO USUARIO_LOGUEADO VALUES (?,?);";
+                System.out.println("user iner " + registrado.getIdUsuarioFk() + registrado.getUsuario() + registrado.getPassword());
+                Query query = em.createNativeQuery(sql);
+                
+                query.setParameter(1,  registrado.getIdUsuarioFk());
+                query.setParameter(2,  registrado.getUsuario());
+                
+                query.executeUpdate();
+                        
+                return true;
+            }                         
+        } catch (Exception e) {
+            System.out.println("Error al insertar usuario " + e.getMessage());
+            return false;
+        }
+        return false;
+
+    }
+    
+      public boolean updatePass(UsuarioRegistrado registrado){
+        try {
+            if(registrado != null){              
+                em.persist(registrado);               
+                return true;
+            }                         
+        } catch (Exception e) {
+            return false;
+        }
+        return false;
+
+    }
+      
+      public boolean deleteUserLog(String user){
+          
+          try {
+              
+            System.out.println("User logueado a elimar " + user);
+              
+            usuarioLogueado = (UsuarioRegistrado) em.createNamedQuery("UsuarioLogueado.findByUsuario").setParameter("usuario", user).getSingleResult();
+                
+            em.remove(usuarioLogueado);
+            return true;
+          
+          } catch (Exception e) {
+              System.err.println("Error al eliminar usuario registrado");
+          }
+         return false;
+      }
 
 }

@@ -42,12 +42,15 @@ public class Productos implements Serializable {
     private String id;
     @Column(name = "nombre")
     private String nombre;
+    @Basic(optional = false)
     @Column(name = "iva")
-    private Integer iva;
+    private int iva;
+    @Basic(optional = false)
     @Column(name = "precio")
-    private Integer precio;
+    private int precio;
+    @Basic(optional = false)
     @Column(name = "embalaje")
-    private Integer embalaje;
+    private int embalaje;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idProductoFk")
     private List<OrdenVenta> ordenVentaList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idProductoFk")
@@ -58,6 +61,13 @@ public class Productos implements Serializable {
 
     public Productos(String id) {
         this.id = id;
+    }
+
+    public Productos(String id, int iva, int precio, int embalaje) {
+        this.id = id;
+        this.iva = iva;
+        this.precio = precio;
+        this.embalaje = embalaje;
     }
 
     public String getId() {
@@ -76,27 +86,27 @@ public class Productos implements Serializable {
         this.nombre = nombre;
     }
 
-    public Integer getIva() {
+    public int getIva() {
         return iva;
     }
 
-    public void setIva(Integer iva) {
+    public void setIva(int iva) {
         this.iva = iva;
     }
 
-    public Integer getPrecio() {
+    public int getPrecio() {
         return precio;
     }
 
-    public void setPrecio(Integer precio) {
+    public void setPrecio(int precio) {
         this.precio = precio;
     }
 
-    public Integer getEmbalaje() {
+    public int getEmbalaje() {
         return embalaje;
     }
 
-    public void setEmbalaje(Integer embalaje) {
+    public void setEmbalaje(int embalaje) {
         this.embalaje = embalaje;
     }
 

@@ -8,6 +8,7 @@ package co.uniminuto.entidades;
 import java.io.Serializable;
 import java.util.List;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -39,15 +40,17 @@ public class Cliente implements Serializable {
     @Basic(optional = false)
     @Column(name = "id_cliente")
     private Integer idCliente;
+    @Basic(optional = false)
     @Column(name = "identificacion")
     private String identificacion;
+    @Basic(optional = false)
     @Column(name = "nombre_cliente")
     private String nombreCliente;
     @Column(name = "telefono")
     private String telefono;
     @Column(name = "direccion")
     private String direccion;
-    @OneToMany(mappedBy = "clienteFk")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "clienteFk")
     private List<Venta> ventaList;
 
     public Cliente() {
@@ -55,6 +58,12 @@ public class Cliente implements Serializable {
 
     public Cliente(Integer idCliente) {
         this.idCliente = idCliente;
+    }
+
+    public Cliente(Integer idCliente, String identificacion, String nombreCliente) {
+        this.idCliente = idCliente;
+        this.identificacion = identificacion;
+        this.nombreCliente = nombreCliente;
     }
 
     public Integer getIdCliente() {

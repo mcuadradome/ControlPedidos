@@ -9,6 +9,7 @@ import java.io.Serializable;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -27,25 +28,18 @@ import javax.xml.bind.annotation.XmlRootElement;
 @NamedQueries({
     @NamedQuery(name = "UsuarioLogueado.findAll", query = "SELECT u FROM UsuarioLogueado u")
     , @NamedQuery(name = "UsuarioLogueado.findById", query = "SELECT u FROM UsuarioLogueado u WHERE u.id = :id")
-    , @NamedQuery(name = "UsuarioLogueado.findByRol", query = "SELECT u FROM UsuarioLogueado u WHERE u.rol = :rol")
-    , @NamedQuery(name = "UsuarioLogueado.findByUsuario", query = "SELECT u FROM UsuarioLogueado u WHERE u.usuario = :usuario")
-    , @NamedQuery(name = "UsuarioLogueado.findByPassword", query = "SELECT u FROM UsuarioLogueado u WHERE u.password = :password")})
+    , @NamedQuery(name = "UsuarioLogueado.findByUsuario", query = "SELECT u FROM UsuarioLogueado u WHERE u.usuario = :usuario")})
 public class UsuarioLogueado implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
     @Column(name = "id")
+    @GeneratedValue
     private Integer id;
-    @Basic(optional = false)
-    @Column(name = "rol")
-    private String rol;
     @Basic(optional = false)
     @Column(name = "usuario")
     private String usuario;
-    @Basic(optional = false)
-    @Column(name = "password")
-    private String password;
     @JoinColumn(name = "id_usuario_fk", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Usuario idUsuarioFk;
@@ -57,11 +51,9 @@ public class UsuarioLogueado implements Serializable {
         this.id = id;
     }
 
-    public UsuarioLogueado(Integer id, String rol, String usuario, String password) {
+    public UsuarioLogueado(Integer id, String usuario) {
         this.id = id;
-        this.rol = rol;
         this.usuario = usuario;
-        this.password = password;
     }
 
     public Integer getId() {
@@ -72,28 +64,12 @@ public class UsuarioLogueado implements Serializable {
         this.id = id;
     }
 
-    public String getRol() {
-        return rol;
-    }
-
-    public void setRol(String rol) {
-        this.rol = rol;
-    }
-
     public String getUsuario() {
         return usuario;
     }
 
     public void setUsuario(String usuario) {
         this.usuario = usuario;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
     }
 
     public Usuario getIdUsuarioFk() {

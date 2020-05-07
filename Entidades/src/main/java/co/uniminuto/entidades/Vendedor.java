@@ -31,8 +31,7 @@ import javax.xml.bind.annotation.XmlTransient;
     , @NamedQuery(name = "Vendedor.findById", query = "SELECT v FROM Vendedor v WHERE v.id = :id")
     , @NamedQuery(name = "Vendedor.findByNombre", query = "SELECT v FROM Vendedor v WHERE v.nombre = :nombre")
     , @NamedQuery(name = "Vendedor.findByTelefono", query = "SELECT v FROM Vendedor v WHERE v.telefono = :telefono")
-    , @NamedQuery(name = "Vendedor.findByEmail", query = "SELECT v FROM Vendedor v WHERE v.email = :email")
-    , @NamedQuery(name = "Vendedor.findByEstado", query = "SELECT v FROM Vendedor v WHERE v.estado = :estado")})
+    , @NamedQuery(name = "Vendedor.findByEmail", query = "SELECT v FROM Vendedor v WHERE v.email = :email")})
 public class Vendedor implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -40,15 +39,15 @@ public class Vendedor implements Serializable {
     @Basic(optional = false)
     @Column(name = "id")
     private Integer id;
+    @Basic(optional = false)
     @Column(name = "nombre")
     private String nombre;
+    @Basic(optional = false)
     @Column(name = "telefono")
     private String telefono;
     @Column(name = "email")
     private String email;
-    @Column(name = "estado")
-    private Boolean estado;
-    @OneToMany(mappedBy = "vendedorFk")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "vendedorFk")
     private List<Venta> ventaList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idVendedorFk")
     private List<CargueInventario> cargueInventarioList;
@@ -58,6 +57,12 @@ public class Vendedor implements Serializable {
 
     public Vendedor(Integer id) {
         this.id = id;
+    }
+
+    public Vendedor(Integer id, String nombre, String telefono) {
+        this.id = id;
+        this.nombre = nombre;
+        this.telefono = telefono;
     }
 
     public Integer getId() {
@@ -90,14 +95,6 @@ public class Vendedor implements Serializable {
 
     public void setEmail(String email) {
         this.email = email;
-    }
-
-    public Boolean getEstado() {
-        return estado;
-    }
-
-    public void setEstado(Boolean estado) {
-        this.estado = estado;
     }
 
     @XmlTransient

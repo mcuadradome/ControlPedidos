@@ -8,6 +8,7 @@ package co.uniminuto.entidades;
 import java.io.Serializable;
 import java.util.List;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -42,15 +43,15 @@ public class Venta implements Serializable {
     @Column(name = "fecha")
     private String fecha;
     @JoinColumn(name = "cliente_fk", referencedColumnName = "id_cliente")
-    @ManyToOne
+    @ManyToOne(optional = false)
     private Cliente clienteFk;
     @JoinColumn(name = "vendedor_fk", referencedColumnName = "id")
-    @ManyToOne
+    @ManyToOne(optional = false)
     private Vendedor vendedorFk;
     @JoinColumn(name = "id_zona_fk", referencedColumnName = "id")
-    @ManyToOne
+    @ManyToOne(optional = false)
     private Zona idZonaFk;
-    @OneToMany(mappedBy = "idVenta")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idVenta")
     private List<OrdenVenta> ordenVentaList;
 
     public Venta() {

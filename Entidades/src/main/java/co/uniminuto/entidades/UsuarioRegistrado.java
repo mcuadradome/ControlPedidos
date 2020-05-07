@@ -28,7 +28,9 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "UsuarioRegistrado.findAll", query = "SELECT u FROM UsuarioRegistrado u")
     , @NamedQuery(name = "UsuarioRegistrado.findById", query = "SELECT u FROM UsuarioRegistrado u WHERE u.id = :id")
     , @NamedQuery(name = "UsuarioRegistrado.findByUsuario", query = "SELECT u FROM UsuarioRegistrado u WHERE u.usuario = :usuario")
-    , @NamedQuery(name = "UsuarioRegistrado.findByPassword", query = "SELECT u FROM UsuarioRegistrado u WHERE u.password = :password")})
+    , @NamedQuery(name = "UsuarioRegistrado.findByRol", query = "SELECT u FROM UsuarioRegistrado u WHERE u.rol = :rol")
+    , @NamedQuery(name = "UsuarioRegistrado.findByPassword", query = "SELECT u FROM UsuarioRegistrado u WHERE u.password = :password")
+    , @NamedQuery(name = "UsuarioRegistrado.findByEstado", query = "SELECT u FROM UsuarioRegistrado u WHERE u.estado = :estado")})
 public class UsuarioRegistrado implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -40,8 +42,12 @@ public class UsuarioRegistrado implements Serializable {
     @Column(name = "usuario")
     private String usuario;
     @Basic(optional = false)
+    @Column(name = "rol")
+    private String rol;
     @Column(name = "password")
     private String password;
+    @Column(name = "estado")
+    private Boolean estado;
     @JoinColumn(name = "id_usuario_fk", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Usuario idUsuarioFk;
@@ -53,10 +59,10 @@ public class UsuarioRegistrado implements Serializable {
         this.id = id;
     }
 
-    public UsuarioRegistrado(Integer id, String usuario, String password) {
+    public UsuarioRegistrado(Integer id, String usuario, String rol) {
         this.id = id;
         this.usuario = usuario;
-        this.password = password;
+        this.rol = rol;
     }
 
     public Integer getId() {
@@ -75,12 +81,28 @@ public class UsuarioRegistrado implements Serializable {
         this.usuario = usuario;
     }
 
+    public String getRol() {
+        return rol;
+    }
+
+    public void setRol(String rol) {
+        this.rol = rol;
+    }
+
     public String getPassword() {
         return password;
     }
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public Boolean getEstado() {
+        return estado;
+    }
+
+    public void setEstado(Boolean estado) {
+        this.estado = estado;
     }
 
     public Usuario getIdUsuarioFk() {
