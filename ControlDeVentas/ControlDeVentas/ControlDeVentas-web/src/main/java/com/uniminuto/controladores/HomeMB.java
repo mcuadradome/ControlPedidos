@@ -62,30 +62,7 @@ public class HomeMB implements Serializable {
         }
     }
     
-    public void insertProduct(){
-        
-        Productos productosVO = new Productos();
-        
-        productosVO.setId(codigo);
-        System.out.println("codigo "+ codigo);
-        productosVO.setNombre(nombreProducto);
-        System.out.println("nombre "+ nombreProducto);
-        productosVO.setIva(IVA);
-        System.out.println("iva "+ IVA);
-        productosVO.setPrecio(precio);
-        productosVO.setEmbalaje(embalaje);
-        
-        System.out.println("valores " + productosVO.toString());
-        if(productosVO.getId() != null){
-            generalEJB.create(productosVO);
-           FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "OK", "Producto Registrado" );
-           FacesContext.getCurrentInstance().addMessage(null, msg);  
-        }else{
-           FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "No se pudo guardar Producto" );
-           FacesContext.getCurrentInstance().addMessage(null, msg);  
-        }
-        
-    }
+    
 
     public String getCodigo() {
         return codigo;

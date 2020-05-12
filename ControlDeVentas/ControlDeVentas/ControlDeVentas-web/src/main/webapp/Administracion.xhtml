@@ -1,0 +1,33 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      >
+
+    <h:head>
+        <title>Administracion</title>
+        <h:outputStylesheet library="css" name="default.css"  />
+    </h:head>
+    <h:body>
+        <h:form id="form">
+            <div class="topbar">
+                <p:menubar class="menubar">
+
+                    <p:menuitem class="menuItem" value="Home" url="Home.xhtml" icon="ui-icon-home" />
+                    <p:menuitem class="menuItem" value="Agregar Inventario" url="Inventario.xhtml" icon="ui-icon-shuffle" />
+                    <p:menuitem class="menuItem" value="Ventas" url="Ventas.xhtml" icon="ui-icon-pencil" />
+                    <p:menuitem class="menuItem" value="Administracion" url="Administracion.xhtml" icon="ui-icon-pencil" />
+
+                    <f:facet name="options">
+                        <p:outputLabel style="margin:1px 10px 1px 1px;" value="#{loginMB.user}"/>
+                        <p:commandButton type="button" value="Logout" icon="ui-icon-expulsar" action="#{loginMB.cerrarSesion()}" />
+                    </f:facet>
+                </p:menubar>
+            </div>
+        </h:form>
+    </h:body>
+
+</html>

@@ -6,6 +6,8 @@
 package co.uniminuto.logica;
 
 import co.uniminuto.entidades.UsuarioRegistrado;
+import co.uniminuto.entidades.Vendedor;
+import co.uniminuto.entidades.Zona;
 import com.uniminuto.logica.VO.ProductosVO;
 import java.util.ArrayList;
 import java.util.List;
@@ -49,5 +51,28 @@ public class GeneralEJB  extends AbstractFacade{
         }
         return  list;
     }
+     
+    public List<Zona> getZonas(){
+         List<Zona> list = new ArrayList<>();
+        try {        
+           Query query = em.createNamedQuery("Zona.findAll");
+           list = query.getResultList();
+        } catch (Exception e) {
+            System.err.println("error al consultar Zonas " + e.getMessage());
+        }
+        return list;
+    } 
+    
+    
+     public List<Vendedor> getVendedores(){
+         List<Vendedor> list = new ArrayList<>();
+        try {        
+           Query query = em.createNamedQuery("Vendedor.findAll");
+           list = query.getResultList();
+        } catch (Exception e) {
+             System.err.println("error al consultar Vendedores " + e.getMessage());
+        }
+        return list;
+    } 
     
 }
