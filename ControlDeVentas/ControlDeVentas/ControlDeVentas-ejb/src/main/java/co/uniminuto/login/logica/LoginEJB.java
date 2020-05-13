@@ -86,6 +86,28 @@ public class LoginEJB extends AbstractFacade{
     
     }
     
+    
+     public boolean existUserLogueado(String usuario){
+        
+        try {
+            UsuarioLogueado usuarioRegistrado = new UsuarioLogueado();
+           
+            
+           // String sql ="select * from USUARIO_REGISTRADO  where usuario= :usuario and password= :password";
+            usuarioRegistrado = (UsuarioLogueado) em.createNamedQuery("UsuarioLogueado.findByUsuario")
+                    .setParameter("usuario", usuario).getSingleResult();
+
+            if(usuarioRegistrado != null){
+                return true;
+            }
+                    
+        } catch (Exception e) {
+            System.err.println("Error al consultar usuario registrado: " + usuario + e.getMessage());
+            return false;
+        }
+        return false;
+    }
+    
     public boolean insertUserLog(UsuarioRegistrado registrado){
         try {
             if(registrado != null){

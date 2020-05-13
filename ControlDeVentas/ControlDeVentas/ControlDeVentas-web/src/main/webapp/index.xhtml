@@ -63,11 +63,15 @@
                     <h:inputText value="#{loginMB.userToFind}" style="width: 150px;"/>
                     <p:commandButton value="" style="width: 50px;" icon="ui-icon-search" action="#{loginMB.findUser()}" update="changePass"/>
 
-                    <div>
-                        <p:outputLabel value="Contraseña"  />
-                        <h:inputText value="#{loginMB.passToChanged}" disabled="#{loginMB.enablePass}"/>
-                        <p:commandButton value="" action="#{loginMB.changePass()}" disabled="#{loginMB.enablePass}" />    
-                    </div>
+
+                    <p:outputLabel value="Contraseña"  />
+                    <h:inputText value="#{loginMB.passToChanged}" disabled="#{loginMB.enablePass}"/>
+                    <p:outputLabel value="" />
+                    
+                    <p:outputLabel value="" />
+                    <p:outputLabel value="" />
+                    <p:commandButton value="Actualizar"  icon="ui-icon-pencil" action="#{loginMB.changePass()}" disabled="#{loginMB.enablePass}" />    
+                   
 
                 </h:panelGrid>
 

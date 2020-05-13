@@ -29,8 +29,8 @@ public class LoginMB implements Serializable {
 
     private String user;
     private String pass;
-    
-       private String userToFind;
+
+    private String userToFind;
     private String passToChanged;
     private boolean enablePass;
 
@@ -42,33 +42,38 @@ public class LoginMB implements Serializable {
 
     @PostConstruct
     public void init() {
-        
-        enablePass=true;
+
+        enablePass = true;
     }
 
     public String Ingresar() {
 
         UsuarioRegistrado usuarioRegistrado = loginEJB.existUser(user, pass);
-        
+
         if (usuarioRegistrado != null) {
-            System.out.println("Res " + usuarioRegistrado.getUsuario() + " pass "+ usuarioRegistrado.getPassword() );
+            System.out.println("Res " + usuarioRegistrado.getUsuario() + " pass " + usuarioRegistrado.getPassword());
             if (usuarioRegistrado.getUsuario().equals(user) && usuarioRegistrado.getPassword().equals(pass)) {
-                boolean existuser = loginEJB.insertUserLog(usuarioRegistrado);
-                if (existuser) {
-                    System.out.println("entro if");
-                    return "/Home.xhtml";
-                }else{
-                   FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN,
-                        "Informacion!", "Usuario no encontrado "));
-                return "/index.xhtml"; 
+                if (loginEJB.existUserLogueado(user)) {
+                     System.out.println("entro if");
+                        return "Home.xhtml";
+                } else {
+                    boolean existuser = loginEJB.insertUserLog(usuarioRegistrado);
+                    if (existuser) {
+                        System.out.println("entro if");
+                        return "Home.xhtml";
+                    } else {
+                        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN,
+                                "Informacion!", "Usuario no encontrado "));
+                        return "index.xhtml";
+                    }
                 }
             } else {
                 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL,
                         "Error!", "Error no encontrado "));
-                return "/index.xhtml";
+                return "index.xhtml";
             }
         }
-        return "/index.xhtml";
+        return "index.xhtml";
     }
 
     public void changePass() {
@@ -81,7 +86,7 @@ public class LoginMB implements Serializable {
                 loginEJB.updatePass(usuarioRegistrado);
             } else {
                 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN,
-                    "Error!", "No se pudo actualizar la contraseña"));
+                        "Error!", "No se pudo actualizar la contraseña"));
             }
         } else {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL,
@@ -89,24 +94,24 @@ public class LoginMB implements Serializable {
 
         }
     }
-    
-    public void findUser(){
-        
-      UsuarioRegistrado usuarioRegistrado = loginEJB.existUser(user);
-      if(usuarioRegistrado != null){
-          enablePass=true;
-      }else{
-           FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN,
+
+    public void findUser() {
+
+        UsuarioRegistrado usuarioRegistrado = loginEJB.existUser(user);
+        if (usuarioRegistrado != null) {
+            enablePass = true;
+        } else {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN,
                     "Informacion", "Usuario no encontrado "));
-      }
+        }
     }
 
     public String cerrarSesion() {
-        
-        if(loginEJB.deleteUserLog(user)){
-             return "/index.xhtml";
-        }else{
-             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL,
+
+        if (loginEJB.deleteUserLog(user)) {
+            return "/index.xhtml";
+        } else {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL,
                     "Error!", "Error no encontrado "));
             return "";
         }
@@ -161,7 +166,5 @@ public class LoginMB implements Serializable {
     public void setPassToChanged(String passToChanged) {
         this.passToChanged = passToChanged;
     }
-    
-    
 
 }
