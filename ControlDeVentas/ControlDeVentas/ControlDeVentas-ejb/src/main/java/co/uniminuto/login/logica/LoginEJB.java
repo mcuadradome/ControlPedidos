@@ -23,7 +23,7 @@ import javax.persistence.TypedQuery;
  *
  * @author Miguel
  */
-@Singleton
+@Stateless
 public class LoginEJB extends AbstractFacade{
 
     private UsuarioRegistrado usuarioLogueado;

@@ -9,16 +9,7 @@
     <ui:define name="metadata">
     </ui:define>
 
-    <style type="text/css">
-        .ui-stack {
-            z-index: 900;
-        }
-    </style>
-
-    <ui:define name="content">
-
-    </ui:define>
-
+      
     <ui:define name="content">
 
         <div class="font-cero font-color-white title-content">
@@ -26,16 +17,17 @@
         </div>
         <div class="middle-content">
             <div class="roundtablez">
-                <p:menubar  styleClass="customenu">
 
-                    <p:menuitem  url="Home.xhtml" icon="ui-icon-home" />
-
-                    <p:menuButton value="{loginMB.user}" icon="ui-icon-persona">
-                        <p:menuitem value="Salir" action="{loginMB.cerrarSesion()}" update="form" icon="pi pi-times"/>
-
-                    </p:menuButton> 
-
-
+                <p:menubar class="menubar">
+                   
+                    <p:menuitem class="menuItem" value="Home" url="#" icon="pi pi-times" />
+                    <p:menuitem class="menuItem" value="Agregar Inventario" url="#" icon="pi pi-briefcase" />
+                    <p:menuitem class="menuItem" value="Ventas" url="#" icon="pi pi-pencil" />
+                  
+                    <f:facet name="options">
+                        <p:outputLabel style="margin:1px 10px 1px 1px;" value="Usuario: #{loginMB.user}"/>
+                        <p:commandButton type="button" value="Logout" icon="pi pi-home" action="#{loginMB.cerrarSesion()}" />
+                    </f:facet>
                 </p:menubar>
             </div>
             <div class="formsearch"

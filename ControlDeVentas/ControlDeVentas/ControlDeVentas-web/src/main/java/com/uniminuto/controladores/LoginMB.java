@@ -24,7 +24,7 @@ import javax.faces.view.ViewScoped;
  * @author Miguel
  */
 @Named(value = "loginMB")
-@ViewScoped
+@SessionScoped
 public class LoginMB implements Serializable {
 
     private String user;
@@ -107,11 +107,13 @@ public class LoginMB implements Serializable {
     }
 
     public String cerrarSesion() {
-
-        if (loginEJB.deleteUserLog(user)) {
-            return "/index.xhtml";
-        } else {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL,
+    
+        if(loginEJB.deleteUserLog(user)){
+             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
+                    "Info!", "Ha salido del sistema."));
+             return "/index.xhtml";
+        }else{
+             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL,
                     "Error!", "Error no encontrado "));
             return "";
         }

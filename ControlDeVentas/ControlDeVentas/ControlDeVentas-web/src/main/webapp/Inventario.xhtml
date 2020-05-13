@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      >
+
+
+    <h:head>
+        <title>TODO supply a title</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    </h:head>
+    <h:body>
+        <h:form id="form">
+            <p:growl id="msgs" showDetail="true" />
+
+
+            <div class="topbar">
+                <p:menubar class="menubar">
+
+                    <p:menuitem class="menuItem" value="Home" url="Home.xhtml" icon="ui-icon-home" />
+                    <p:menuitem class="menuItem" value="Agregar Inventario" url="Inventario.xhtml" icon="ui-icon-shuffle" />
+                    <p:menuitem class="menuItem" value="Ventas" url="Ventas.xhtml" icon="ui-icon-pencil" />
+
+                    <f:facet name="options">
+                        <p:outputLabel style="margin:1px 10px 1px 1px;" value="#{loginMB.user}"/>
+                        <p:commandButton type="button" value="Logout" icon="ui-icon-expulsar" action="#{loginMB.cerrarSesion()}" />
+                    </f:facet>
+                </p:menubar>
+            </div>
+
+            <div class="contentarea" >
+
+                <p:outputLabel for="@next" value="Zona: " />
+                <p:selectOneMenu id="advanced" value="#{InventarioMB.zona}"  panelStyle="width:180px"
+                                 effect="fade" var="t" style="width:160px" >
+                    <f:selectItems value="#{InventarioMB.zona}" var="zona" itemLabel="#{zona.id}" itemValue="#{zona}" />
+
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="Zona"/>
+                        </f:facet>
+                        <h:outputText value="#{t.id}" />
+                    </p:column>
+                 
+                </p:selectOneMenu>
+
+                
+
+                <p:dataTable var="car" id="tableProd" value="#{homeMB.list}" rows="10"
+                             paginator="true"
+                             editable="true"
+                             editMode="cell"
+                             widgetVar="cellProduct"
+                             paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                             currentPageReportTemplate="{startRecord}-{endRecord} of {totalRecords} records"
+                             rowsPerPageTemplate="5,10,15">
+
+                    <p:ajax event="cellEdit" listener="#{homeMB.onCellEdit}" update=":form:msgs, :form:tableProd " />
+
+
+
+                </p:dataTable>
+
+            </div>
+
+
+        </h:form>
+    </h:body>
+</html>
