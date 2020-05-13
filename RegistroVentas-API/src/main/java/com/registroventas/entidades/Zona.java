@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.uniminuto.Entidades;
+package com.registroventas.entidades;
 
 import java.io.Serializable;
 import java.util.List;
@@ -26,37 +26,45 @@ import javax.xml.bind.annotation.XmlTransient;
  * @author Miguel
  */
 @Entity
-@Table(name = "PRODUCTOS")
+@Table(name = "ZONA")
 @XmlRootElement
-@NamedQueries({@NamedQuery(name = "Productos.findAll", query = "SELECT p FROM Productos p")})
-public class Productos implements Serializable {
+public class Zona implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 50)
+    @Size(min = 1, max = 10)
     @Column(name = "id")
     private String id;
-    @Size(max = 50)
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 10)
     @Column(name = "nombre")
     private String nombre;
-    @Column(name = "iva")
-    private Integer iva;
-    @Column(name = "precio")
-    private Integer precio;
-    @Column(name = "embalaje")
-    private Integer embalaje;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idProductoFk")
-    private List<OrdenVenta> ordenVentaList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idProductoFk")
-    private List<Inventario> inventarioList;
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "id_vendedor_fk")
+    private int idVendedorFk;
+    @Size(max = 10)
+    @Column(name = "id_zona_fk")
+    private String idZonaFk;
+    @OneToMany(mappedBy = "idZonaFk")
+    private List<Venta> ventaList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idZonaFk")
+    private List<CargueInventario> cargueInventarioList;
 
-    public Productos() {
+    public Zona() {
     }
 
-    public Productos(String id) {
+    public Zona(String id) {
         this.id = id;
+    }
+
+    public Zona(String id, String nombre, int idVendedorFk) {
+        this.id = id;
+        this.nombre = nombre;
+        this.idVendedorFk = idVendedorFk;
     }
 
     public String getId() {
@@ -75,46 +83,38 @@ public class Productos implements Serializable {
         this.nombre = nombre;
     }
 
-    public Integer getIva() {
-        return iva;
+    public int getIdVendedorFk() {
+        return idVendedorFk;
     }
 
-    public void setIva(Integer iva) {
-        this.iva = iva;
+    public void setIdVendedorFk(int idVendedorFk) {
+        this.idVendedorFk = idVendedorFk;
     }
 
-    public Integer getPrecio() {
-        return precio;
+    public String getIdZonaFk() {
+        return idZonaFk;
     }
 
-    public void setPrecio(Integer precio) {
-        this.precio = precio;
-    }
-
-    public Integer getEmbalaje() {
-        return embalaje;
-    }
-
-    public void setEmbalaje(Integer embalaje) {
-        this.embalaje = embalaje;
+    public void setIdZonaFk(String idZonaFk) {
+        this.idZonaFk = idZonaFk;
     }
 
     @XmlTransient
-    public List<OrdenVenta> getOrdenVentaList() {
-        return ordenVentaList;
+    public List<Venta> getVentaList() {
+        return ventaList;
     }
 
-    public void setOrdenVentaList(List<OrdenVenta> ordenVentaList) {
-        this.ordenVentaList = ordenVentaList;
+    public void setVentaList(List<Venta> ventaList) {
+        this.ventaList = ventaList;
     }
 
     @XmlTransient
-    public List<Inventario> getInventarioList() {
-        return inventarioList;
+    public List<CargueInventario> getCargueInventarioList() {
+        return cargueInventarioList;
     }
 
-    public void setInventarioList(List<Inventario> inventarioList) {
-        this.inventarioList = inventarioList;
+    public void setCargueInventarioList(List<CargueInventario> cargueInventarioList) {
+        this.cargueInventarioList = cargueInventarioList;
     }
 
     @Override
@@ -127,10 +127,10 @@ public class Productos implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Productos)) {
+        if (!(object instanceof Zona)) {
             return false;
         }
-        Productos other = (Productos) object;
+        Zona other = (Zona) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -139,7 +139,7 @@ public class Productos implements Serializable {
 
     @Override
     public String toString() {
-        return "com.uniminuto.Entidades.Productos[ id=" + id + " ]";
+        return "com.uniminuto.Entidades.Zona[ id=" + id + " ]";
     }
     
 }

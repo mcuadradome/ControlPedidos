@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.uniminuto.controllers;
+package com.registroventas.controller;
 
 import java.util.HashMap;
 import java.util.List;
@@ -13,6 +13,7 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -22,9 +23,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.uniminuto.Entidades.Productos;
-import com.uniminuto.repository.ProductosRepository;
-import com.uniminuto.exception.*;
+import com.registroventas.entidades.Productos;
+import com.registroventas.repository.ProductosRepository;
+import com.registroventas.exception.*;
 
 
 /**
@@ -33,19 +34,20 @@ import com.uniminuto.exception.*;
  */
 
 @RestController
-@RequestMapping("/api/v1")
+@RequestMapping(value = "/api/v1/")
+@CrossOrigin("*")
 public class ProductosController {
     
     
     @Autowired
     private ProductosRepository productosRepository;
     
-     @GetMapping("/products")
+     @GetMapping(value ="/products")
     public List<Productos> getProducts(){
         return  productosRepository.findAll();
     }
     
-    @GetMapping("/products/{id}")
+    @GetMapping(value ="/products/{id}")
     public ResponseEntity<Productos> getProductsById(@PathVariable(value = "id") String productId)
         throws ResourceNotFoundException {
         Productos productos = productosRepository.findById(productId)
@@ -53,16 +55,16 @@ public class ProductosController {
         return ResponseEntity.ok().body(productos);
     }
     
-    @PostMapping("/products")
+    @PostMapping(value ="/products")
     public Productos createEmployee(@Valid @RequestBody Productos employee) {
         return productosRepository.save(employee);
     }
     
-    @PutMapping("/products/{id}")
-    public ResponseEntity<Productos> updateProduct(@PathVariable(value = "id") String productId,
+    @PutMapping(value ="/products/{id}")
+    public ResponseEntity<Productos> updateProduct(@PathVariable String id,
          @Valid @RequestBody Productos productDetails) throws ResourceNotFoundException {
-        Productos product = productosRepository.findById(productId)
-        .orElseThrow(() -> new ResourceNotFoundException("Employee not found for this id :: " + productId));
+        Productos product = productosRepository.findById(id)
+        .orElseThrow(() -> new ResourceNotFoundException("Employee not found for this id :: " + id));
         
         product.setId(productDetails.getId());
         product.setNombre(productDetails.getNombre());
@@ -75,11 +77,11 @@ public class ProductosController {
         return ResponseEntity.ok(updatedProduct);
     }
     
-    @DeleteMapping("/employees/{id}")
-    public Map<String, Boolean> deleteProduct(@PathVariable(value = "id") String productId)
+    @DeleteMapping(value ="/employees/{id}")
+    public Map<String, Boolean> deleteProduct(@PathVariable String id)
          throws ResourceNotFoundException {
-        Productos product = productosRepository.findById(productId)
-       .orElseThrow(() -> new ResourceNotFoundException("Product not found for this id :: " + productId));
+        Productos product = productosRepository.findById(id)
+       .orElseThrow(() -> new ResourceNotFoundException("Product not found for this id :: " + id));
 
         productosRepository.delete(product);
         Map<String, Boolean> response = new HashMap<>();

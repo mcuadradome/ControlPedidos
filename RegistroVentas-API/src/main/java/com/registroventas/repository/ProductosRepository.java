@@ -3,11 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.uniminuto.repository;
+package com.registroventas.repository;
 
-import com.uniminuto.Entidades.Productos;
+import com.registroventas.entidades.Productos;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.support.JpaRepositoryFactory;
 import org.springframework.stereotype.Repository;
 
 /**

@@ -3,12 +3,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.uniminuto.Entidades;
+package com.registroventas.entidades;
 
 import java.io.Serializable;
 import java.util.List;
 import javax.persistence.Basic;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -28,11 +27,9 @@ import javax.xml.bind.annotation.XmlTransient;
  * @author Miguel
  */
 @Entity
-@Table(name = "CARGUE_INVENTARIO")
+@Table(name = "VENTA")
 @XmlRootElement
-@NamedQueries({
-    @NamedQuery(name = "CargueInventario.findAll", query = "SELECT c FROM CargueInventario c")})
-public class CargueInventario implements Serializable {
+public class Venta implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -45,23 +42,26 @@ public class CargueInventario implements Serializable {
     @Size(min = 1, max = 50)
     @Column(name = "fecha")
     private String fecha;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idCargueInventarioFk")
-    private List<Inventario> inventarioList;
-    @JoinColumn(name = "id_vendedor_fk", referencedColumnName = "id")
-    @ManyToOne(optional = false)
-    private Vendedor idVendedorFk;
+    @JoinColumn(name = "cliente_fk", referencedColumnName = "id_cliente")
+    @ManyToOne
+    private Cliente clienteFk;
+    @JoinColumn(name = "vendedor_fk", referencedColumnName = "id")
+    @ManyToOne
+    private Vendedor vendedorFk;
     @JoinColumn(name = "id_zona_fk", referencedColumnName = "id")
-    @ManyToOne(optional = false)
+    @ManyToOne
     private Zona idZonaFk;
+    @OneToMany(mappedBy = "idVenta")
+    private List<OrdenVenta> ordenVentaList;
 
-    public CargueInventario() {
+    public Venta() {
     }
 
-    public CargueInventario(Integer id) {
+    public Venta(Integer id) {
         this.id = id;
     }
 
-    public CargueInventario(Integer id, String fecha) {
+    public Venta(Integer id, String fecha) {
         this.id = id;
         this.fecha = fecha;
     }
@@ -82,21 +82,20 @@ public class CargueInventario implements Serializable {
         this.fecha = fecha;
     }
 
-    @XmlTransient
-    public List<Inventario> getInventarioList() {
-        return inventarioList;
+    public Cliente getClienteFk() {
+        return clienteFk;
     }
 
-    public void setInventarioList(List<Inventario> inventarioList) {
-        this.inventarioList = inventarioList;
+    public void setClienteFk(Cliente clienteFk) {
+        this.clienteFk = clienteFk;
     }
 
-    public Vendedor getIdVendedorFk() {
-        return idVendedorFk;
+    public Vendedor getVendedorFk() {
+        return vendedorFk;
     }
 
-    public void setIdVendedorFk(Vendedor idVendedorFk) {
-        this.idVendedorFk = idVendedorFk;
+    public void setVendedorFk(Vendedor vendedorFk) {
+        this.vendedorFk = vendedorFk;
     }
 
     public Zona getIdZonaFk() {
@@ -105,6 +104,15 @@ public class CargueInventario implements Serializable {
 
     public void setIdZonaFk(Zona idZonaFk) {
         this.idZonaFk = idZonaFk;
+    }
+
+    @XmlTransient
+    public List<OrdenVenta> getOrdenVentaList() {
+        return ordenVentaList;
+    }
+
+    public void setOrdenVentaList(List<OrdenVenta> ordenVentaList) {
+        this.ordenVentaList = ordenVentaList;
     }
 
     @Override
@@ -117,10 +125,10 @@ public class CargueInventario implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof CargueInventario)) {
+        if (!(object instanceof Venta)) {
             return false;
         }
-        CargueInventario other = (CargueInventario) object;
+        Venta other = (Venta) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -129,7 +137,7 @@ public class CargueInventario implements Serializable {
 
     @Override
     public String toString() {
-        return "com.uniminuto.Entidades.CargueInventario[ id=" + id + " ]";
+        return "com.uniminuto.Entidades.Venta[ id=" + id + " ]";
     }
     
 }

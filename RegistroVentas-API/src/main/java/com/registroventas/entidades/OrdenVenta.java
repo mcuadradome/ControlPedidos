@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.uniminuto.Entidades;
+package com.registroventas.entidades;
 
 import java.io.Serializable;
 import javax.persistence.Basic;
@@ -25,8 +25,6 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Entity
 @Table(name = "ORDEN_VENTA")
 @XmlRootElement
-@NamedQueries({
-    @NamedQuery(name = "OrdenVenta.findAll", query = "SELECT o FROM OrdenVenta o")})
 public class OrdenVenta implements Serializable {
 
     private static final long serialVersionUID = 1L;

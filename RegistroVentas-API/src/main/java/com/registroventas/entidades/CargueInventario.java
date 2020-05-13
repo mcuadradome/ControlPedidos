@@ -3,10 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.uniminuto.Entidades;
+package com.registroventas.entidades;
 
 import java.io.Serializable;
+import java.util.List;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -14,21 +16,20 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
  * @author Miguel
  */
 @Entity
-@Table(name = "USUARIO_LOGUEADO")
-@XmlRootElement
-@NamedQueries({
-    @NamedQuery(name = "UsuarioLogueado.findAll", query = "SELECT u FROM UsuarioLogueado u")})
-public class UsuarioLogueado implements Serializable {
+@Table(name = "CARGUE_INVENTARIO")
+public class CargueInventario implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -38,35 +39,28 @@ public class UsuarioLogueado implements Serializable {
     private Integer id;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 10)
-    @Column(name = "rol")
-    private String rol;
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 10)
-    @Column(name = "usuario")
-    private String usuario;
-    @Basic(optional = false)
-    @NotNull
     @Size(min = 1, max = 50)
-    @Column(name = "password")
-    private String password;
-    @JoinColumn(name = "id_usuario_fk", referencedColumnName = "id")
+    @Column(name = "fecha")
+    private String fecha;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idCargueInventarioFk")
+    private List<Inventario> inventarioList;
+    @JoinColumn(name = "id_vendedor_fk", referencedColumnName = "id")
     @ManyToOne(optional = false)
-    private Usuario idUsuarioFk;
+    private Vendedor idVendedorFk;
+    @JoinColumn(name = "id_zona_fk", referencedColumnName = "id")
+    @ManyToOne(optional = false)
+    private Zona idZonaFk;
 
-    public UsuarioLogueado() {
+    public CargueInventario() {
     }
 
-    public UsuarioLogueado(Integer id) {
+    public CargueInventario(Integer id) {
         this.id = id;
     }
 
-    public UsuarioLogueado(Integer id, String rol, String usuario, String password) {
+    public CargueInventario(Integer id, String fecha) {
         this.id = id;
-        this.rol = rol;
-        this.usuario = usuario;
-        this.password = password;
+        this.fecha = fecha;
     }
 
     public Integer getId() {
@@ -77,36 +71,37 @@ public class UsuarioLogueado implements Serializable {
         this.id = id;
     }
 
-    public String getRol() {
-        return rol;
+    public String getFecha() {
+        return fecha;
     }
 
-    public void setRol(String rol) {
-        this.rol = rol;
+    public void setFecha(String fecha) {
+        this.fecha = fecha;
     }
 
-    public String getUsuario() {
-        return usuario;
+    @XmlTransient
+    public List<Inventario> getInventarioList() {
+        return inventarioList;
     }
 
-    public void setUsuario(String usuario) {
-        this.usuario = usuario;
+    public void setInventarioList(List<Inventario> inventarioList) {
+        this.inventarioList = inventarioList;
     }
 
-    public String getPassword() {
-        return password;
+    public Vendedor getIdVendedorFk() {
+        return idVendedorFk;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
+    public void setIdVendedorFk(Vendedor idVendedorFk) {
+        this.idVendedorFk = idVendedorFk;
     }
 
-    public Usuario getIdUsuarioFk() {
-        return idUsuarioFk;
+    public Zona getIdZonaFk() {
+        return idZonaFk;
     }
 
-    public void setIdUsuarioFk(Usuario idUsuarioFk) {
-        this.idUsuarioFk = idUsuarioFk;
+    public void setIdZonaFk(Zona idZonaFk) {
+        this.idZonaFk = idZonaFk;
     }
 
     @Override
@@ -119,10 +114,10 @@ public class UsuarioLogueado implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof UsuarioLogueado)) {
+        if (!(object instanceof CargueInventario)) {
             return false;
         }
-        UsuarioLogueado other = (UsuarioLogueado) object;
+        CargueInventario other = (CargueInventario) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -131,7 +126,7 @@ public class UsuarioLogueado implements Serializable {
 
     @Override
     public String toString() {
-        return "com.uniminuto.Entidades.UsuarioLogueado[ id=" + id + " ]";
+        return "com.uniminuto.Entidades.CargueInventario[ id=" + id + " ]";
     }
     
 }
