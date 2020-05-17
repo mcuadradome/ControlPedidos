@@ -16,8 +16,7 @@
             <p:growl id="messsages" showDetail="true"  />
             <br/>
             <br/>
-            <div class="middle-content" style="text-align:center; border: white; margin-right: 100px;">
-
+            <div class="middle-content">
 
                 <h:outputText  class="title" value="Ingreso al sistema" style="text-align:center; margin: auto"/>
                 <br/>
@@ -31,35 +30,39 @@
 
                     <p:outputLabel value="Password"/>
                     <p:password value="#{loginMB.pass}" required="true" />
-
-                    <h:outputText  value=""/>
-                    <p:commandLink id="ajax" update=""  style="margin-right:20px;" onclick="PF('dglChangePassword').show()">
+                    
+                   <h:column />
+                   <p:commandButton  value="Ingresar" update="panel, :form:messsages" action="#{loginMB.Ingresar()}" />
+                                      
+                </h:panelGrid>
+                <p:separator style="margin-bottom:15px; width: 50%;" />
+                    <h:column />
+                    <p:commandLink id="ajax" update=""  style="margin-bottom:20px;" onclick="PF('dglChangePassword').show()">
                         <h:outputText value="Olvido Contraseña" />
                     </p:commandLink>
-
-                    <h:outputText  value=""/>
-                    <p:commandButton  value="Ingresar" update="panel, :form:messsages" action="#{loginMB.Ingresar()}" />
-                </h:panelGrid>
             </div> 
 
             <p:dialog widgetVar="dglChangePassword"  closable="true" minimizable="false" closeOnEscape="true" maximizable="false"
-                      width="350" height="400" header="Cambio Contraseña" resizable="false" modal="true">
+                      width="350" height="300" header="Cambio Contraseña" resizable="false" modal="true">
 
                 <h:panelGrid columns="3" id="changePass" style=" text-align:center; margin: auto">
 
                     <p:outputLabel value="Usuario" />
                     <h:inputText value="#{loginMB.userToFind}" style="width: 150px;"/>
-                    <p:commandButton value="" style="width: 50px;" icon="ui-icon-search" action="#{loginMB.findUser()}" update="changePass"/>
+                    <p:commandButton value="" style="width: 30px;height: 30px;" icon="ui-icon-search" 
+                                     actionListener="#{loginMB.findUser()}" update="changePass, messsages"/>
 
 
                     <p:outputLabel value="Contraseña"  />
                     <h:inputText value="#{loginMB.passToChanged}" disabled="#{loginMB.enablePass}"/>
                     <p:outputLabel value="" />
                     
+                    <p:commandButton value="Actualizar"  icon="ui-icon-pencil"
+                                     actionListener="#{loginMB.changePass()}" disabled="#{loginMB.enablePass}" 
+                                     update="messsages"/>             
                     <p:outputLabel value="" />
                     <p:outputLabel value="" />
-                    <p:commandButton value="Actualizar"  icon="ui-icon-pencil" action="#{loginMB.changePass()}" disabled="#{loginMB.enablePass}" />    
-                   
+                    
 
                 </h:panelGrid>
 

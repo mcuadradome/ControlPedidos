@@ -12,6 +12,8 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
@@ -43,16 +45,11 @@ public class Zona implements Serializable {
     @Column(name = "nombre")
     private String nombre;
     @Basic(optional = false)
-    @Column(name = "id_vendedor_fk")
-    private int idVendedorFk;
-    @Basic(optional = false)
-    @Column(name = "id_zona_fk")
-    private String idZonaFk;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idZonaFk")
-    private List<Venta> ventaList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idZonaFk")
-    private List<CargueInventario> cargueInventarioList;
-
+    
+    @ManyToOne
+    @JoinColumn(name = "id_vendedor_fk")
+    private Vendedor idVendedorFk;
+  
     public Zona() {
     }
 
@@ -60,11 +57,10 @@ public class Zona implements Serializable {
         this.id = id;
     }
 
-    public Zona(String id, String nombre, int idVendedorFk, String idZonaFk) {
+    public Zona(String id, String nombre, Vendedor idVendedorFk, Vendedor idZonaFk) {
         this.id = id;
         this.nombre = nombre;
-        this.idVendedorFk = idVendedorFk;
-        this.idZonaFk = idZonaFk;
+        this.idVendedorFk = idVendedorFk;       
     }
 
     public String getId() {
@@ -83,38 +79,12 @@ public class Zona implements Serializable {
         this.nombre = nombre;
     }
 
-    public int getIdVendedorFk() {
+    public Vendedor getIdVendedorFk() {
         return idVendedorFk;
     }
 
-    public void setIdVendedorFk(int idVendedorFk) {
+    public void setIdVendedorFk(Vendedor idVendedorFk) {
         this.idVendedorFk = idVendedorFk;
-    }
-
-    public String getIdZonaFk() {
-        return idZonaFk;
-    }
-
-    public void setIdZonaFk(String idZonaFk) {
-        this.idZonaFk = idZonaFk;
-    }
-
-    @XmlTransient
-    public List<Venta> getVentaList() {
-        return ventaList;
-    }
-
-    public void setVentaList(List<Venta> ventaList) {
-        this.ventaList = ventaList;
-    }
-
-    @XmlTransient
-    public List<CargueInventario> getCargueInventarioList() {
-        return cargueInventarioList;
-    }
-
-    public void setCargueInventarioList(List<CargueInventario> cargueInventarioList) {
-        this.cargueInventarioList = cargueInventarioList;
     }
 
     @Override

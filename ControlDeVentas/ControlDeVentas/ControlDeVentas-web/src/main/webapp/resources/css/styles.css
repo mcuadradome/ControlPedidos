@@ -1,0 +1,17 @@
+
+.topbar{
+    background-image: url(../resources/images/baner-top.png);
+    background-repeat: no-repeat;
+    width: 100%;
+    height: 30%;
+    margin-bottom: 50px;
+}
+
+.footer{
+    background-image: url(../resources/images/baner-bottom.png);
+    background-repeat: no-repeat;
+    width: 100%;
+    height: 30%;
+    margin-top: 50px;
+}
+

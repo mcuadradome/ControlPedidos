@@ -9,6 +9,8 @@ import java.io.Serializable;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -28,30 +30,23 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 public class UsuarioLogueado implements Serializable {
 
-    private static final long serialVersionUID = 1L;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+   
     @Id
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "id")
-    private Integer id;
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 10)
-    @Column(name = "rol")
-    private String rol;
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 10)
-    @Column(name = "usuario")
-    private String usuario;
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 50)
-    @Column(name = "password")
-    private String password;
-    @JoinColumn(name = "id_usuario_fk", referencedColumnName = "id")
-    @ManyToOne(optional = false)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Integer id;
+    
+   
+    @JoinColumn(name = "id_usuario_fk", nullable = false)
+    @ManyToOne
     private Usuario idUsuarioFk;
+    
+    @Column
+    private String usuario;
 
     public UsuarioLogueado() {
     }
@@ -60,76 +55,37 @@ public class UsuarioLogueado implements Serializable {
         this.id = id;
     }
 
-    public UsuarioLogueado(Integer id, String rol, String usuario, String password) {
+    public UsuarioLogueado(Integer id, Usuario idUsuarioFK, String usuario ) {
         this.id = id;
-        this.rol = rol;
-        this.usuario = usuario;
-        this.password = password;
-    }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public String getRol() {
-        return rol;
-    }
-
-    public void setRol(String rol) {
-        this.rol = rol;
-    }
-
-    public String getUsuario() {
-        return usuario;
-    }
-
-    public void setUsuario(String usuario) {
+        this.idUsuarioFk = idUsuarioFK;
         this.usuario = usuario;
     }
 
-    public String getPassword() {
-        return password;
-    }
+	
+	public Integer getId() {
+		return id;
+	}
 
-    public void setPassword(String password) {
-        this.password = password;
-    }
+	public void setId(Integer id) {
+		this.id = id;
+	}
 
-    public Usuario getIdUsuarioFk() {
-        return idUsuarioFk;
-    }
+	public Usuario getIdUsuarioFk() {
+		return idUsuarioFk;
+	}
 
-    public void setIdUsuarioFk(Usuario idUsuarioFk) {
-        this.idUsuarioFk = idUsuarioFk;
-    }
+	public void setIdUsuarioFk(Usuario idUsuarioFk) {
+		this.idUsuarioFk = idUsuarioFk;
+	}
 
-    @Override
-    public int hashCode() {
-        int hash = 0;
-        hash += (id != null ? id.hashCode() : 0);
-        return hash;
-    }
+	public String getUsuario() {
+		return usuario;
+	}
 
-    @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof UsuarioLogueado)) {
-            return false;
-        }
-        UsuarioLogueado other = (UsuarioLogueado) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
-            return false;
-        }
-        return true;
-    }
+	public void setUsuario(String usuario) {
+		this.usuario = usuario;
+	}
 
-    @Override
-    public String toString() {
-        return "com.uniminuto.Entidades.UsuarioLogueado[ id=" + id + " ]";
-    }
+   
     
 }

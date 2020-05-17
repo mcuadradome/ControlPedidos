@@ -55,12 +55,12 @@ public class ProductosController {
         return ResponseEntity.ok().body(productos);
     }
     
-    @PostMapping(value ="/products")
+    @PostMapping(value ="/Saveproduct")
     public Productos createEmployee(@Valid @RequestBody Productos employee) {
         return productosRepository.save(employee);
     }
     
-    @PutMapping(value ="/products/{id}")
+    @PutMapping(value ="/Updateproduct/{id}")
     public ResponseEntity<Productos> updateProduct(@PathVariable String id,
          @Valid @RequestBody Productos productDetails) throws ResourceNotFoundException {
         Productos product = productosRepository.findById(id)
@@ -77,7 +77,7 @@ public class ProductosController {
         return ResponseEntity.ok(updatedProduct);
     }
     
-    @DeleteMapping(value ="/employees/{id}")
+    @DeleteMapping(value ="/deleteProduct/{id}")
     public Map<String, Boolean> deleteProduct(@PathVariable String id)
          throws ResourceNotFoundException {
         Productos product = productosRepository.findById(id)

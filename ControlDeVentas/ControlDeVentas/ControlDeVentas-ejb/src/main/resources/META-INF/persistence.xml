@@ -15,6 +15,7 @@
     <class>co.uniminuto.entidades.Zona</class>
     <class>co.uniminuto.entidades.OrdenVenta</class>
     <class>co.uniminuto.entidades.UsuarioRegistrado</class>
+    <class>co.uniminuto.entidades.Menu</class>
     <exclude-unlisted-classes>true</exclude-unlisted-classes>
     <properties>
       <property name="eclipselink.jdbc.batch-writing" value="JDBC"/>

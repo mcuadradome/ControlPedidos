@@ -5,6 +5,7 @@
  */
 package co.uniminuto.logica;
 
+import co.uniminuto.entidades.Menu;
 import co.uniminuto.entidades.UsuarioRegistrado;
 import co.uniminuto.entidades.Vendedor;
 import co.uniminuto.entidades.Zona;
@@ -40,6 +41,18 @@ public class GeneralEJB  extends AbstractFacade{
     }
     
     
+    public List<Menu> getMenu(){
+        
+        List<Menu> list = new ArrayList<>();
+        try{
+            Query query = em.createNamedQuery("Menu.findAll");
+            list = query.getResultList();
+        }catch(Exception e){
+            System.err.println("Error al consultar menu " + e.getMessage());
+        }
+        return  list;
+    }
+    
      public List<ProductosVO> getProductos(){
         
         List<ProductosVO> list = new ArrayList<>();
@@ -53,7 +66,7 @@ public class GeneralEJB  extends AbstractFacade{
     }
      
     public List<Zona> getZonas(){
-         List<Zona> list = new ArrayList<>();
+         List<Zona> list = new ArrayList<Zona>();
         try {        
            Query query = em.createNamedQuery("Zona.findAll");
            list = query.getResultList();

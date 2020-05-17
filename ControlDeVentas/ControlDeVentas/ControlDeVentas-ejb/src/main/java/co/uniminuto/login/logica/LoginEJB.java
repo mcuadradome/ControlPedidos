@@ -135,7 +135,7 @@ public class LoginEJB extends AbstractFacade{
       public boolean updatePass(UsuarioRegistrado registrado){
         try {
             if(registrado != null){              
-                em.persist(registrado);               
+                em.merge(registrado);               
                 return true;
             }                         
         } catch (Exception e) {
@@ -151,13 +151,13 @@ public class LoginEJB extends AbstractFacade{
               
             System.out.println("User logueado a elimar " + user);
               
-            usuarioLogueado = (UsuarioRegistrado) em.createNamedQuery("UsuarioLogueado.findByUsuario").setParameter("usuario", user).getSingleResult();
+            UsuarioLogueado usuarioLogueado = (UsuarioLogueado) em.createNamedQuery("UsuarioLogueado.findByUsuario").setParameter("usuario", user).getSingleResult();
                 
             em.remove(usuarioLogueado);
             return true;
           
           } catch (Exception e) {
-              System.err.println("Error al eliminar usuario registrado");
+              System.err.println("Error al eliminar usuario registrado " + e.getMessage());
           }
          return false;
       }
