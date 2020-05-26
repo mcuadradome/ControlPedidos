@@ -5,6 +5,7 @@
  */
 package com.uniminuto.controladores;
 
+import co.uniminuto.contantes.Constants;
 import co.uniminuto.entidades.UsuarioRegistrado;
 import co.uniminuto.login.logica.LoginEJB;
 
@@ -51,7 +52,8 @@ public class LoginMB implements Serializable {
         String url = null;
         if (usuarioRegistrado != null) {
             System.out.println("Res " + usuarioRegistrado.getUsuario() + " pass " + usuarioRegistrado.getPassword());
-            if (usuarioRegistrado.getUsuario().equals(user) && usuarioRegistrado.getPassword().equals(pass)) {
+            if (usuarioRegistrado.getUsuario().equals(user) && usuarioRegistrado.getPassword().equals(pass)
+                    && usuarioRegistrado.getRol().equals(Constants.ADMIN)) {
                 if (loginEJB.existUserLogueado(user)) {
                     System.out.println("entro cuando existe usuario logueado");
                     url = "/Menu.xhtml";
@@ -82,7 +84,7 @@ public class LoginMB implements Serializable {
             FacesContext facesContext = FacesContext.getCurrentInstance();
             UsuarioRegistrado us = (UsuarioRegistrado) facesContext.getExternalContext().getSessionMap().get("usuario");
             if (us == null) {
-                facesContext.getExternalContext().redirect("permisos.xhtml");
+                facesContext.getExternalContext().redirect("index.xhtml");
             }
 
         } catch (Exception e) {

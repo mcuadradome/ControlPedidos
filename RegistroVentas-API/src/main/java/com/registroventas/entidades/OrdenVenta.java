@@ -9,6 +9,8 @@ import java.io.Serializable;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -29,9 +31,8 @@ public class OrdenVenta implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "id_orden")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer idOrden;
     @Column(name = "cantidad")
     private Integer cantidad;
@@ -41,12 +42,12 @@ public class OrdenVenta implements Serializable {
     private Integer precioProducto;
     @Column(name = "por_paquete")
     private Boolean porPaquete;
-    @JoinColumn(name = "id_producto_fk", referencedColumnName = "id")
-    @ManyToOne(optional = false)
-    private Productos idProductoFk;
-    @JoinColumn(name = "id_venta", referencedColumnName = "id")
-    @ManyToOne
-    private Venta idVenta;
+   
+    @Column(name="id_producto_fk")
+    private String idProductoFk;
+  
+    @Column(name="id_venta")
+    private int idVenta;
 
     public OrdenVenta() {
     }
@@ -95,19 +96,19 @@ public class OrdenVenta implements Serializable {
         this.porPaquete = porPaquete;
     }
 
-    public Productos getIdProductoFk() {
+    public String getIdProductoFk() {
         return idProductoFk;
     }
 
-    public void setIdProductoFk(Productos idProductoFk) {
+    public void setIdProductoFk(String idProductoFk) {
         this.idProductoFk = idProductoFk;
     }
 
-    public Venta getIdVenta() {
+    public int getIdVenta() {
         return idVenta;
     }
 
-    public void setIdVenta(Venta idVenta) {
+    public void setIdVenta(int idVenta) {
         this.idVenta = idVenta;
     }
 

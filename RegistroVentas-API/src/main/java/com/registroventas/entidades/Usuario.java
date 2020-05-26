@@ -57,8 +57,7 @@ public class Usuario implements Serializable {
     @Size(min = 1, max = 50)
     @Column(name = "email")
     private String email;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idUsuarioFk")
-    private List<UsuarioLogueado> usuarioLogueadoList;
+   
 
     public Usuario() {
     }
@@ -115,14 +114,6 @@ public class Usuario implements Serializable {
         this.email = email;
     }
 
-    @XmlTransient
-    public List<UsuarioLogueado> getUsuarioLogueadoList() {
-        return usuarioLogueadoList;
-    }
-
-    public void setUsuarioLogueadoList(List<UsuarioLogueado> usuarioLogueadoList) {
-        this.usuarioLogueadoList = usuarioLogueadoList;
-    }
 
     @Override
     public int hashCode() {

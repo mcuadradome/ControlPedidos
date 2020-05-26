@@ -9,7 +9,7 @@ import com.registroventas.entidades.UsuarioRegistrado;
 
 @Repository
 public interface UsuarioLogueadoRepository extends JpaRepository<UsuarioLogueado, Integer>{
-	
-	UsuarioLogueado getUserLogueadoByUser(String user);
-	UsuarioLogueado getUserLogueadoByIdusuario(int idUsuario);
+//	
+//	UsuarioLogueado getUserLogueadoByUser(String user);
+//	UsuarioLogueado getUserLogueadoByIdusuario(int idUsuario);
 }

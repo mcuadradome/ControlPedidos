@@ -45,12 +45,12 @@ public class ClienteController {
     private ClienteRepository clienteRepository;
     
      @GetMapping(value ="/clients")
-    public List<Cliente> getProducts(){
+    public List<Cliente> getClients(){
         return  clienteRepository.findAll();
     }
     
     @GetMapping(value ="/clients/{id}")
-    public ResponseEntity<Cliente> getProductsById(@PathVariable(value = "id") int clientId)
+    public ResponseEntity<Cliente> getClientById(@PathVariable(value = "id") int clientId)
         throws ResourceNotFoundException {
         Cliente cliente = clienteRepository.findById(clientId)
           .orElseThrow(() -> new ResourceNotFoundException("Product not found for this id :: " + clientId));

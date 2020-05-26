@@ -11,6 +11,8 @@ import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -33,24 +35,27 @@ public class CargueInventario implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    @Basic(optional = false)
+   
+   
+//    @ManyToOne
+//	@JoinColumn(name = "id_usuarioVendedor_fk" , nullable = false)  
+    @Column(name = "id_usuarioVendedor_fk")
+    private int idVendedorFk;
+    
+   
+//    @ManyToOne(optional = false)
+//    @JoinColumn(name = "id_zona_fk", nullable = false)
+    @Column(name = "id_zona_fk")
+    private String idZonaFk;
+
+    
     @NotNull
     @Size(min = 1, max = 50)
     @Column(name = "fecha")
     private String fecha;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idCargueInventarioFk")
-    private List<Inventario> inventarioList;
-    @JoinColumn(name = "id_vendedor_fk", referencedColumnName = "id")
-    @ManyToOne(optional = false)
-    private Vendedor idVendedorFk;
-    @JoinColumn(name = "id_zona_fk", referencedColumnName = "id")
-    @ManyToOne(optional = false)
-    private Zona idZonaFk;
-
+    
     public CargueInventario() {
     }
 
@@ -79,28 +84,21 @@ public class CargueInventario implements Serializable {
         this.fecha = fecha;
     }
 
-    @XmlTransient
-    public List<Inventario> getInventarioList() {
-        return inventarioList;
-    }
+   
 
-    public void setInventarioList(List<Inventario> inventarioList) {
-        this.inventarioList = inventarioList;
-    }
+    public int getIdVendedorFk() {
+		return idVendedorFk;
+	}
 
-    public Vendedor getIdVendedorFk() {
-        return idVendedorFk;
-    }
+	public void setIdVendedorFk(int idVendedorFk) {
+		this.idVendedorFk = idVendedorFk;
+	}
 
-    public void setIdVendedorFk(Vendedor idVendedorFk) {
-        this.idVendedorFk = idVendedorFk;
-    }
-
-    public Zona getIdZonaFk() {
+	public String getIdZonaFk() {
         return idZonaFk;
     }
 
-    public void setIdZonaFk(Zona idZonaFk) {
+    public void setIdZonaFk(String idZonaFk) {
         this.idZonaFk = idZonaFk;
     }
 

@@ -9,5 +9,5 @@ import com.registroventas.entidades.UsuarioRegistrado;
 @Repository
 public interface UsuarioRegistradoRepository extends JpaRepository<UsuarioRegistrado, Integer>{
 	
-	UsuarioRegistrado getByUserNameAndPassword(String user, String password);
+	//UsuarioRegistrado getByUserNameAndPassword(String usuario, String password);
 }

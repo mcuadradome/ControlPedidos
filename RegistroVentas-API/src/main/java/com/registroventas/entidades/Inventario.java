@@ -9,6 +9,8 @@ import java.io.Serializable;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -29,20 +31,19 @@ public class Inventario implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "id")
+
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     @Basic(optional = false)
     @NotNull
     @Column(name = "cantidad")
     private int cantidad;
-    @JoinColumn(name = "id_cargue_inventario_fk", referencedColumnName = "id")
-    @ManyToOne(optional = false)
-    private CargueInventario idCargueInventarioFk;
-    @JoinColumn(name = "id_producto_fk", referencedColumnName = "id")
-    @ManyToOne(optional = false)
-    private Productos idProductoFk;
+   
+    @Column(name = "id_cargue_inventario_fk")
+    private int idCargueInventarioFk;
+   
+    @Column(name = "id_producto_fk")
+    private String idProductoFk;
 
     public Inventario() {
     }
@@ -72,19 +73,19 @@ public class Inventario implements Serializable {
         this.cantidad = cantidad;
     }
 
-    public CargueInventario getIdCargueInventarioFk() {
+    public int getIdCargueInventarioFk() {
         return idCargueInventarioFk;
     }
 
-    public void setIdCargueInventarioFk(CargueInventario idCargueInventarioFk) {
+    public void setIdCargueInventarioFk(int idCargueInventarioFk) {
         this.idCargueInventarioFk = idCargueInventarioFk;
     }
 
-    public Productos getIdProductoFk() {
+    public String getIdProductoFk() {
         return idProductoFk;
     }
 
-    public void setIdProductoFk(Productos idProductoFk) {
+    public void setIdProductoFk(String idProductoFk) {
         this.idProductoFk = idProductoFk;
     }
 

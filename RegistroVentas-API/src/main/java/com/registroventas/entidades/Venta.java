@@ -10,6 +10,8 @@ import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -32,27 +34,26 @@ import javax.xml.bind.annotation.XmlTransient;
 public class Venta implements Serializable {
 
     private static final long serialVersionUID = 1L;
+   
     @Id
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+    
+    @Column(name = "cliente_fk")
+    private int clienteFk;
+    
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 50)
     @Column(name = "fecha")
     private String fecha;
-    @JoinColumn(name = "cliente_fk", referencedColumnName = "id_cliente")
-    @ManyToOne
-    private Cliente clienteFk;
-    @JoinColumn(name = "vendedor_fk", referencedColumnName = "id")
-    @ManyToOne
-    private Vendedor vendedorFk;
-    @JoinColumn(name = "id_zona_fk", referencedColumnName = "id")
-    @ManyToOne
-    private Zona idZonaFk;
-    @OneToMany(mappedBy = "idVenta")
-    private List<OrdenVenta> ordenVentaList;
+    
+    
+    @Column(name = "vendedor_fk")
+    private int vendedorFk;
+    
+    @Column(name = "id_zona_fk")
+    private String idZonaFk;
+    
 
     public Venta() {
     }
@@ -82,40 +83,32 @@ public class Venta implements Serializable {
         this.fecha = fecha;
     }
 
-    public Cliente getClienteFk() {
-        return clienteFk;
-    }
 
-    public void setClienteFk(Cliente clienteFk) {
-        this.clienteFk = clienteFk;
-    }
+    public int getClienteFk() {
+		return clienteFk;
+	}
 
-    public Vendedor getVendedorFk() {
-        return vendedorFk;
-    }
+	public void setClienteFk(int clienteFk) {
+		this.clienteFk = clienteFk;
+	}
 
-    public void setVendedorFk(Vendedor vendedorFk) {
-        this.vendedorFk = vendedorFk;
-    }
+	public int getVendedorFk() {
+		return vendedorFk;
+	}
 
-    public Zona getIdZonaFk() {
-        return idZonaFk;
-    }
+	public void setVendedorFk(int vendedorFk) {
+		this.vendedorFk = vendedorFk;
+	}
 
-    public void setIdZonaFk(Zona idZonaFk) {
-        this.idZonaFk = idZonaFk;
-    }
+	public String getIdZonaFk() {
+		return idZonaFk;
+	}
 
-    @XmlTransient
-    public List<OrdenVenta> getOrdenVentaList() {
-        return ordenVentaList;
-    }
+	public void setIdZonaFk(String idZonaFk) {
+		this.idZonaFk = idZonaFk;
+	}
 
-    public void setOrdenVentaList(List<OrdenVenta> ordenVentaList) {
-        this.ordenVentaList = ordenVentaList;
-    }
-
-    @Override
+	@Override
     public int hashCode() {
         int hash = 0;
         hash += (id != null ? id.hashCode() : 0);

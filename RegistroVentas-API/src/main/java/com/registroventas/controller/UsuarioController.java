@@ -1,5 +1,6 @@
 package com.registroventas.controller;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -28,7 +29,12 @@ import com.registroventas.repository.UsuarioLogueadoRepository;;
 @RestController
 @RequestMapping(value = "/api/v1/")
 @CrossOrigin("*")
-public class UsuarioController {
+public class UsuarioController implements Serializable {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 
 	@Autowired
 	private UsuarioRegistradoRepository usuarioRegistradoRepository;
@@ -40,19 +46,21 @@ public class UsuarioController {
 	private UsuarioLogueadoRepository usuarioLogueadoRepository;
 
 	@GetMapping(value = "/usuario")
-	public List<Usuario> getProducts() {
+	public List<Usuario> getUsers() {
 		return usuarioRepository.findAll();
 	}
 	
-	@GetMapping(value = "/usuarioByUserAndPassword/{user}{password}")
-	public UsuarioRegistrado getUserByUserAndPassword(@PathVariable String user, @PathVariable String password) {
-		return usuarioRegistradoRepository.getByUserNameAndPassword(user, password);
+	@GetMapping(value = "/usuarioRegistrado")
+	public List<UsuarioRegistrado> getUseriosRegistrados() {
+		return usuarioRegistradoRepository.findAll();
 	}
 	
-	@GetMapping(value = "/usuarioByUserAndPassword/{user}")
-	public UsuarioLogueado getUserLogueadoByUser(@PathVariable String user) {
-		return usuarioLogueadoRepository.getUserLogueadoByUser(user);
+	@GetMapping(value = "/usuarioLogueado")
+	public List<UsuarioLogueado> getUserByUserAndPassword() {		
+		return usuarioLogueadoRepository.findAll();// getByUserNameAndPassword(usuario, password);	
 	}
+	
+
 	
 	@PostMapping(value ="/saveUserLogueado")
     public UsuarioLogueado createUser(@Valid @RequestBody UsuarioLogueado usuarioLogueado) {
@@ -60,8 +68,8 @@ public class UsuarioController {
 		
 		try {
         	usuarioLogueadoRepository.save(usuarioLogueado);         
-            us = usuarioLogueadoRepository.getUserLogueadoByIdusuario(usuarioLogueado.getIdUsuarioFk().getId());
- 
+            //us = usuarioLogueadoRepository.getUserLogueadoByIdusuario(usuarioLogueado.getIdUsuarioFk().getId());
+        	us=usuarioLogueado;
 		} catch (Exception e) {
 			System.out.println("Error al ingresar usuarioLogueado " + e.getMessage());
 		} 

@@ -21,18 +21,21 @@ public class UsuarioRegistrado implements Serializable{
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column
 	private int id;
 	
 	@ManyToOne
 	@JoinColumn(name = "id_usuario_fk" , nullable = false)
-	private UsuarioLogueado idUsuarioFK;
+	private Usuario idUsuarioFK;
 	
 	@Column(name = "usuario")
 	private String usuario;
 	
 	@Column(name = "password")
 	private String password;
+	
+	@Column(name = "rol")
+	private String rol;
 	
 	@Column(name = "estado")
 	private String estado;
@@ -46,11 +49,11 @@ public class UsuarioRegistrado implements Serializable{
 		this.id = id;
 	}
 
-	public UsuarioLogueado getIdUsuarioFK() {
+	public Usuario getIdUsuarioFK() {
 		return idUsuarioFK;
 	}
 
-	public void setIdUsuarioFK(UsuarioLogueado idUsuarioFK) {
+	public void setIdUsuarioFK(Usuario idUsuarioFK) {
 		this.idUsuarioFK = idUsuarioFK;
 	}
 
@@ -68,6 +71,15 @@ public class UsuarioRegistrado implements Serializable{
 
 	public void setPassword(String password) {
 		this.password = password;
+	}
+
+	
+	public String getRol() {
+		return rol;
+	}
+
+	public void setRol(String rol) {
+		this.rol = rol;
 	}
 
 	public String getEstado() {

@@ -6,12 +6,12 @@
                 xmlns:p="http://primefaces.org/ui"
                 xmlns:f="http://java.sun.com/jsf/core"
                 xmlns:c="http://java.sun.com/jsp/jstl/core"
-                 template="./templates/principal.xhtml" >
-    
-     <ui:define name="top">
+                template="./templates/principal.xhtml" >
 
-        
-       
+    <ui:define name="top">
+
+
+
         <p:menubar class="menubar" model="#{menuMB.modelMenu}" id="menu"  >
 
             <f:facet name="options">
@@ -23,45 +23,82 @@
 
     </ui:define>
 
-            <ui:define name="content">
-               
-                    <br/>
-                    <div class="contentarea" >
+    <ui:define name="content">
 
-                        <p:outputLabel for="@next" value="Zona: " />
-                        <p:selectOneMenu id="advanced" value="#{InventarioMB.zona}"  panelStyle="width:180px"
-                                         effect="fade" var="t" style="width:160px" >
-                            <f:selectItems value="#{InventarioMB.zona}" var="zona" itemLabel="#{zona.id}" itemValue="#{zona}" />
+        <br/>
+        <div class="contentarea" >
+            <h:panelGrid columns="4" cellpadding="2" >
+                <h:column>
+                    <p:outputLabel value="Zona: " />
+                    <p:selectOneMenu id="advanced" value="#{InventarioMB.zona}"  panelStyle="width:180px"
+                                     effect="fade"  style="width:160px" >
+                        <f:selectItem itemLabel="Selecicione" itemValue="" />
+                        <f:selectItems value="#{InventarioMB.zonasMap.entrySet()}" var="zona" itemLabel="#{zona.value.id}" itemValue="#{zona.key}" />
+                        <p:ajax update="lbxVendedor" process="@form" listener="#{InventarioMB.consultaUsuarioVendedor()}" event="change"/>
+                    </p:selectOneMenu>
+                </h:column>
 
-                            <p:column>
-                                <f:facet name="header">
-                                    <h:outputText value="Zona"/>
-                                </f:facet>
-                                <h:outputText value="#{t.id}" />
-                            </p:column>
+                <h:column>
+                    <p:outputLabel value="Vendedor: " />
+                    <p:outputLabel id="lbxVendedor" style="width: 170px;"  value="#{InventarioMB.vendedor.idUsuarioFk.nombre}" /> 
+                </h:column>
 
-                        </p:selectOneMenu>
+                <h:column>
+                    <p:outputLabel value="Fecha:" />
+                    <p:calendar id="effect" value="#{InventarioMB.fecha}"  effect="fold">
+                        <p:ajax event="dateSelect" listener="#{InventarioMB.recalcualarFecha}" update="msgs" />
+                    </p:calendar>
+                </h:column>
 
-                        
+                <h:column>              
+                    <p:commandButton value="Buscar" process="@this" action="#{InventarioMB.buscarInventario()}" ajax="true" update="tableProd"/>
+                </h:column>
 
-                        <p:dataTable var="car" id="tableProd" value="#{homeMB.list}" rows="10"
-                                     paginator="true"
-                                     editable="true"
-                                     editMode="cell"
-                                     widgetVar="cellProduct"
-                                     paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-                                     currentPageReportTemplate="{startRecord}-{endRecord} of {totalRecords} records"
-                                     rowsPerPageTemplate="5,10,15">
 
-                            <p:ajax event="cellEdit" listener="#{homeMB.onCellEdit}" update=":form:msgs, :form:tableProd " />
+            </h:panelGrid>
 
-                             <p:column headerText="Text" >
-                                 <h:outputText value="Prueba" />
-                            </p:column>
 
-                        </p:dataTable>
+            <p:dataTable var="car"  widgetVar="cars1" id="tableProd" value="#{InventarioMB.cargueInventarios}" rows="10"
+                         style="margin-top: 20px;"
+                         paginator="true"
+                         editable="true"
+                         editMode="cell"                 
+                         paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                         currentPageReportTemplate="{startRecord}-{endRecord} of {totalRecords} records"
+                         rowsPerPageTemplate="5,10,15">
 
-                    </div>
-            </ui:define>
+                <p:ajax event="rowEdit" listener="#{InventarioMB.onRowEdit}" update=":form:msgs" />
+                <p:ajax event="rowEditCancel" listener="#{InventarioMB.onRowCancel}" update=":form:msgs" />
+                <!--<p:ajax event="cellEdit" listener="{InventarioMB.onCellEdit}" update=":form:msgs" />-->
+ 
+                <p:column headerText="Cod. Producto" >
+                    <p:cellEditor disabled="#{car.producto.equals("producto")}">
+                        <f:facet name="output"><h:outputText value="#{car.producto}" /></f:facet>
+                        <f:facet name="input"><p:inputText id="modelInput" value="#{car.producto}" style="width:100%"/></f:facet>
+                    </p:cellEditor>
+                    <p:ajax event="blur" update="txtNombre" listener="#{InventarioMB.updateNombre(car.producto)}" />
+                </p:column>
 
-        </ui:composition>
+                <p:column headerText="Nombre" >
+                    <h:outputText id="txtNombre" value="#{car.nombre}" />
+                </p:column>
+
+                <p:column headerText="Cantidad" >
+                    <p:cellEditor>
+                        <f:facet name="output"><h:outputText value="#{car.cantidad}" /></f:facet>
+                        <f:facet name="input"><p:inputText  value="#{car.cantidad}" style="width:100%"/></f:facet>
+                    </p:cellEditor>
+                </p:column>
+
+            </p:dataTable>
+
+            <div class="ui-g">
+                <div class="ui-g-12">
+                    <p:commandButton value="Nuevo" styleClass="ui-priority-primary" process="@this" update=":form:msgs"
+                                     action="#{InventarioMB.onAddNew()}" oncomplete="PF('cars1').addRow();"/>
+                </div>
+            </div>
+        </div>
+    </ui:define>
+
+</ui:composition>

@@ -7,14 +7,19 @@ package com.uniminuto.controladores;
 
 import co.uniminuto.entidades.CargueInventario;
 import co.uniminuto.entidades.Productos;
+import co.uniminuto.entidades.UsuarioRegistrado;
 import co.uniminuto.entidades.Zona;
 import co.uniminuto.logica.GeneralEJB;
 import co.uniminuto.logica.InventarioEJB;
+import com.uniminuto.logica.VO.InventarioVO;
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
@@ -22,6 +27,10 @@ import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Named;
+import org.primefaces.behavior.validate.ClientValidator;
+import org.primefaces.event.CellEditEvent;
+import org.primefaces.event.RowEditEvent;
+import org.primefaces.event.SelectEvent;
 
 /**
  *
@@ -34,9 +43,16 @@ public class InventarioMB implements Serializable {
     private int cantidad;
     private Productos productos;
     private CargueInventario cargueInventario;
-    private List<Zona> zona = new ArrayList<>();  
-    private String fecha;
-
+    private List<Zona> Listzona = new ArrayList<>();
+    private Zona zona;
+    private String idZona;
+    private Map<String, Zona> zonasMap = new LinkedHashMap<>();
+    private Date fecha;
+    private String fechaFormat;
+    private UsuarioRegistrado vendedor;
+    private List<InventarioVO> cargueInventarios;
+    SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+    InventarioVO car2Add;
     @EJB
     GeneralEJB generalEJB;
 
@@ -49,17 +65,106 @@ public class InventarioMB implements Serializable {
     @PostConstruct
     public void init() {
 
-        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+       
         Date date = new Date();
-        zona = generalEJB.getZonas();
-        fecha =  formatter.format(date);
+        cargueInventarios = new ArrayList<>();
+        try {
+            Listzona = generalEJB.getZonas();
+            System.out.println("Zonas " + Listzona.size());
+            if (!Listzona.isEmpty()) {
+                for (Zona zona1 : Listzona) {
+                    System.out.println("Fecha " + zona1.getId());
+                    zonasMap.put(zona1.getId(), zona1);
+                }
+            }
+           
+            fechaFormat = formatter.format(date);
+            fecha = date;
+        } catch (Exception e) {
+               System.out.println("Errro en init " + e.getMessage());
+        }
+
+    }
+    
+    public void recalcualarFecha(SelectEvent<Date> event){
+        FacesContext facesContext = FacesContext.getCurrentInstance();
+        fecha = new Date(formatter.format(event.getObject()));
+        facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Date Selected", formatter.format(event.getObject())));
+    
+    }
+    
+    public void consultaUsuarioVendedor(){
+        try{
+            System.out.println("Zona " + zona);
+            vendedor = generalEJB.getVendedores(zona.getIdVendedorFk().getId()).get(0);
+        }catch(Exception e){
+            System.out.println("Error al consultar vendedor " + e.getMessage());
+        }
     }
 
     public void ingresarProductoInventario() {
 
     }
+    
+    public void onAddNew() {
+        // Add one new car to the table:
+        car2Add = new InventarioVO();
+        car2Add.setProducto("producto");
+        car2Add.setCantidad(0);
+        car2Add.setNombre("nombre");
+              
+        cargueInventarios.add(car2Add);
+        FacesMessage msg = new FacesMessage("New pro", car2Add.getProducto());
+        FacesContext.getCurrentInstance().addMessage(null, msg);
+    }
+    
+     public void onRowEdit(RowEditEvent<InventarioVO> event) {
+        
+        InventarioVO inventarioVO = event.getObject();
+       
+        
+        inventarioEJB.createInventario(inventarioVO);
+        
+        System.out.println("Valores in" + inventarioVO.getNombre() + inventarioVO.getProducto() + inventarioVO.getCantidad());
+        FacesMessage msg = new FacesMessage("Car Edited", event.getObject().getProducto());
+        FacesContext.getCurrentInstance().addMessage(null, msg);
+    }
+     
+    public void onRowCancel(RowEditEvent<InventarioVO> event) {
+        FacesMessage msg = new FacesMessage("Edit Cancelled", event.getObject().getProducto());
+        FacesContext.getCurrentInstance().addMessage(null, msg);
+    }
+    
+     public void onCellEdit(CellEditEvent event) {
+        Object oldValue = event.getOldValue();
+        Object newValue = event.getNewValue();
+         
+        if(newValue != null && !newValue.equals(oldValue)) {
+            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Cell Changed", "Old: " + oldValue + ", New:" + newValue);
+            FacesContext.getCurrentInstance().addMessage(null, msg);
+        }
+    }
+    
+    public void updateNombre(String id){
+        
+        Productos prod = inventarioEJB.getProducto(id);       
+        car2Add.setNombre(prod.getNombre());
+    }
 
-    public void buscarProducto() {
+    public void buscarInventario() {
+        
+        System.out.println("Fecha " + fecha.toString() );//+ " " + zona.getId());
+        try{
+      
+        String fechaParameter = formatter.format(fecha);
+            System.out.println("FEcha " + fechaParameter);
+       
+            cargueInventarios = inventarioEJB.getCargueInventario("22632", "19-05-2020");
+        
+        }catch(Exception e){
+            System.out.println("Error " + e.getMessage());
+        }
+        
 
     }
 
@@ -88,6 +193,15 @@ public class InventarioMB implements Serializable {
 //
 //    }
 
+    public UsuarioRegistrado getVendedor() {
+        return vendedor;
+    }
+
+    public void setVendedor(UsuarioRegistrado vendedor) {
+        this.vendedor = vendedor;
+    }
+    
+    
     public int getCantidad() {
         return cantidad;
     }
@@ -98,6 +212,24 @@ public class InventarioMB implements Serializable {
 
     public Productos getProductos() {
         return productos;
+    }
+
+    public String getIdZona() {
+        return idZona;
+    }
+
+    public void setIdZona(String idZona) {
+        this.idZona = idZona;
+    }
+    
+    
+    
+    public List<InventarioVO> getCargueInventarios() {
+        return cargueInventarios;
+    }
+
+    public void setCargueInventarios(List<InventarioVO> cargueInventarios) {
+        this.cargueInventarios = cargueInventarios;
     }
 
     public void setProductos(Productos productos) {
@@ -112,21 +244,41 @@ public class InventarioMB implements Serializable {
         this.cargueInventario = cargueInventario;
     }
 
-    public List<Zona> getZona() {
+    public List<Zona> getListzona() {
+        return Listzona;
+    }
+
+    public void setListzona(List<Zona> Listzona) {
+        this.Listzona = Listzona;
+    }
+
+    public Zona getZona() {
         return zona;
     }
 
-    public void setZona(List<Zona> zona) {
+    public void setZona(Zona zona) {
         this.zona = zona;
     }
 
-    public String getFecha() {
+    
+
+    public Date getFecha() {
         return fecha;
     }
 
-    public void setFecha(String fecha) {
+    public void setFecha(Date fecha) {
         this.fecha = fecha;
     }
+
+    public String getFechaFormat() {
+        return fechaFormat;
+    }
+
+    public void setFechaFormat(String fechaFormat) {
+        this.fechaFormat = fechaFormat;
+    }
+
+   
 
     public GeneralEJB getGeneralEJB() {
         return generalEJB;
@@ -143,8 +295,14 @@ public class InventarioMB implements Serializable {
     public void setInventarioEJB(InventarioEJB inventarioEJB) {
         this.inventarioEJB = inventarioEJB;
     }
-    
- 
+
+    public Map<String, Zona> getZonasMap() {
+        return zonasMap;
+    }
+
+    public void setZonasMap(Map<String, Zona> zonasMap) {
+        this.zonasMap = zonasMap;
+    }
     
     
 

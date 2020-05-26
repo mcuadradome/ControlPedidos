@@ -47,8 +47,7 @@ public class Cliente implements Serializable {
     @Size(max = 50)
     @Column(name = "direccion")
     private String direccion;
-    @OneToMany(mappedBy = "clienteFk")
-    private List<Venta> ventaList;
+   
 
     public Cliente() {
     }
@@ -97,14 +96,7 @@ public class Cliente implements Serializable {
         this.direccion = direccion;
     }
 
-    @XmlTransient
-    public List<Venta> getVentaList() {
-        return ventaList;
-    }
-
-    public void setVentaList(List<Venta> ventaList) {
-        this.ventaList = ventaList;
-    }
+ 
 
     @Override
     public int hashCode() {

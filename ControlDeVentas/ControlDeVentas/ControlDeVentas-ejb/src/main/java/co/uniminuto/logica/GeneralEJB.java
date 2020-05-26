@@ -77,10 +77,11 @@ public class GeneralEJB  extends AbstractFacade{
     } 
     
     
-     public List<Vendedor> getVendedores(){
-         List<Vendedor> list = new ArrayList<>();
+     public List<UsuarioRegistrado> getVendedores(int id){
+         List<UsuarioRegistrado> list = new ArrayList<>();
+         //int idUsuario = Integer.parseInt(id);
         try {        
-           Query query = em.createNamedQuery("Vendedor.findAll");
+           Query query = em.createNamedQuery("UsuarioRegistrado.findById").setParameter("id", id);
            list = query.getResultList();
         } catch (Exception e) {
              System.err.println("error al consultar Vendedores " + e.getMessage());

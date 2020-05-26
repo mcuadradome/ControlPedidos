@@ -7,6 +7,7 @@ package com.uniminuto.controladores;
 
 import co.uniminuto.entidades.Productos;
 import co.uniminuto.logica.GeneralEJB;
+import com.uniminuto.logica.VO.InventarioVO;
 import com.uniminuto.logica.VO.ProductosVO;
 import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
@@ -19,6 +20,7 @@ import javax.faces.bean.RequestScoped;
 import javax.faces.view.ViewScoped;
 import javax.faces.context.FacesContext;
 import org.primefaces.event.CellEditEvent;
+import org.primefaces.event.RowEditEvent;
 
 /**
  *
@@ -62,6 +64,7 @@ public class HomeMB implements Serializable {
         }
     }
     
+  
     
 
     public String getCodigo() {

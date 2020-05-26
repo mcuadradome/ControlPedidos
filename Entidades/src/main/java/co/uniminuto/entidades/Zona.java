@@ -32,8 +32,7 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Zona.findAll", query = "SELECT z FROM Zona z")
     , @NamedQuery(name = "Zona.findById", query = "SELECT z FROM Zona z WHERE z.id = :id")
     , @NamedQuery(name = "Zona.findByNombre", query = "SELECT z FROM Zona z WHERE z.nombre = :nombre")
-    , @NamedQuery(name = "Zona.findByIdVendedorFk", query = "SELECT z FROM Zona z WHERE z.idVendedorFk = :idVendedorFk")
-    , @NamedQuery(name = "Zona.findByIdZonaFk", query = "SELECT z FROM Zona z WHERE z.idZonaFk = :idZonaFk")})
+    , @NamedQuery(name = "Zona.findByIdVendedorFk", query = "SELECT z FROM Zona z WHERE z.idVendedorFk = :idVendedorFk")})
 public class Zona implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -48,7 +47,7 @@ public class Zona implements Serializable {
     
     @ManyToOne
     @JoinColumn(name = "id_vendedor_fk")
-    private Vendedor idVendedorFk;
+    private UsuarioRegistrado idVendedorFk;
   
     public Zona() {
     }
@@ -57,7 +56,7 @@ public class Zona implements Serializable {
         this.id = id;
     }
 
-    public Zona(String id, String nombre, Vendedor idVendedorFk, Vendedor idZonaFk) {
+    public Zona(String id, String nombre, UsuarioRegistrado idVendedorFk, Vendedor idZonaFk) {
         this.id = id;
         this.nombre = nombre;
         this.idVendedorFk = idVendedorFk;       
@@ -79,11 +78,11 @@ public class Zona implements Serializable {
         this.nombre = nombre;
     }
 
-    public Vendedor getIdVendedorFk() {
+    public UsuarioRegistrado getIdVendedorFk() {
         return idVendedorFk;
     }
 
-    public void setIdVendedorFk(Vendedor idVendedorFk) {
+    public void setIdVendedorFk(UsuarioRegistrado idVendedorFk) {
         this.idVendedorFk = idVendedorFk;
     }
 
