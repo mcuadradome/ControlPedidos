@@ -30,17 +30,17 @@
             <h:panelGrid columns="4" cellpadding="2" >
                 <h:column>
                     <p:outputLabel value="Zona: " />
-                    <p:selectOneMenu id="advanced" value="#{InventarioMB.zona}"  panelStyle="width:180px"
+                    <p:selectOneMenu id="advanced" value="#{InventarioMB.idZona}"  panelStyle="width:180px"
                                      effect="fade"  style="width:160px" >
                         <f:selectItem itemLabel="Selecicione" itemValue="" />
                         <f:selectItems value="#{InventarioMB.zonasMap.entrySet()}" var="zona" itemLabel="#{zona.value.id}" itemValue="#{zona.key}" />
-                        <p:ajax update="lbxVendedor" process="@form" listener="#{InventarioMB.consultaUsuarioVendedor()}" event="change"/>
+                        <p:ajax update="form" listener="#{InventarioMB.consultaUsuarioVendedor()}" event="change" />
                     </p:selectOneMenu>
                 </h:column>
 
                 <h:column>
                     <p:outputLabel value="Vendedor: " />
-                    <p:outputLabel id="lbxVendedor" style="width: 170px;"  value="#{InventarioMB.vendedor.idUsuarioFk.nombre}" /> 
+                    <p:outputLabel id="lbxVendedor" style="width: 180px;"  value="#{InventarioMB.vendedor.idUsuarioFk.nombre}" /> 
                 </h:column>
 
                 <h:column>
@@ -72,11 +72,11 @@
                 <!--<p:ajax event="cellEdit" listener="{InventarioMB.onCellEdit}" update=":form:msgs" />-->
  
                 <p:column headerText="Cod. Producto" >
-                    <p:cellEditor disabled="#{car.producto.equals("producto")}">
+                    <p:cellEditor disabled="#{car.producto.equals('producto')}">
                         <f:facet name="output"><h:outputText value="#{car.producto}" /></f:facet>
                         <f:facet name="input"><p:inputText id="modelInput" value="#{car.producto}" style="width:100%"/></f:facet>
                     </p:cellEditor>
-                    <p:ajax event="blur" update="txtNombre" listener="#{InventarioMB.updateNombre(car.producto)}" />
+          
                 </p:column>
 
                 <p:column headerText="Nombre" >

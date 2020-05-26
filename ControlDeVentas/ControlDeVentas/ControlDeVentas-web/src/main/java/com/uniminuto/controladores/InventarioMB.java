@@ -85,18 +85,15 @@ public class InventarioMB implements Serializable {
         }
 
     }
-    
-    public void recalcualarFecha(SelectEvent<Date> event){
-        FacesContext facesContext = FacesContext.getCurrentInstance();
-        fecha = new Date(formatter.format(event.getObject()));
-        facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Date Selected", formatter.format(event.getObject())));
-    
+   
+    public void recalcualarFecha(SelectEvent<Date> event){    
+        fecha =  event.getObject();      
     }
     
     public void consultaUsuarioVendedor(){
         try{
-            System.out.println("Zona " + zona);
-            vendedor = generalEJB.getVendedores(zona.getIdVendedorFk().getId()).get(0);
+            System.out.println("Zona " + idZona);
+            vendedor = generalEJB.getVendedores(idZona).get(0).getIdVendedorFk();
         }catch(Exception e){
             System.out.println("Error al consultar vendedor " + e.getMessage());
         }
@@ -157,9 +154,8 @@ public class InventarioMB implements Serializable {
         try{
       
         String fechaParameter = formatter.format(fecha);
-            System.out.println("FEcha " + fechaParameter);
-       
-            cargueInventarios = inventarioEJB.getCargueInventario("22632", "19-05-2020");
+            System.out.println("FEcha " + fechaParameter);      
+            cargueInventarios = inventarioEJB.getCargueInventario(idZona, fechaParameter);
         
         }catch(Exception e){
             System.out.println("Error " + e.getMessage());
